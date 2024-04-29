@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RMSProject.Data;
 
@@ -10,9 +11,11 @@ using RMSProject.Data;
 namespace RMSProject.Migrations.ModelsDb
 {
     [DbContext(typeof(ModelsDbContext))]
-    partial class ModelsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240429143853_Ingredients")]
+    partial class Ingredients
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,23 +41,6 @@ namespace RMSProject.Migrations.ModelsDb
                     b.ToTable("Ingredients");
                 });
 
-            modelBuilder.Entity("RMSProject.Models.MenuIngredients", b =>
-                {
-                    b.Property<int>("IngredientsId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(0);
-
-                    b.Property<int>("MenuItemId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    b.HasKey("IngredientsId", "MenuItemId");
-
-                    b.HasIndex("MenuItemId");
-
-                    b.ToTable("MenuIngredients");
-                });
-
             modelBuilder.Entity("RMSProject.Models.MenuItem", b =>
                 {
                     b.Property<int>("Id")
@@ -76,25 +62,6 @@ namespace RMSProject.Migrations.ModelsDb
                     b.HasKey("Id");
 
                     b.ToTable("MenuItem");
-                });
-
-            modelBuilder.Entity("RMSProject.Models.MenuIngredients", b =>
-                {
-                    b.HasOne("RMSProject.Models.Ingredients", "Ingredients")
-                        .WithMany()
-                        .HasForeignKey("IngredientsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RMSProject.Models.MenuItem", "MenuItem")
-                        .WithMany()
-                        .HasForeignKey("MenuItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ingredients");
-
-                    b.Navigation("MenuItem");
                 });
 #pragma warning restore 612, 618
         }

@@ -35,6 +35,10 @@ namespace RMSProject.Controllers
 
             var menuItem = await _context.MenuItem
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            // Todo: Display all ingredients and Macros information here using foriegn keys from Tables.
+            // Use view models where possible and remember DI (Interfaces methods etc).
+
             if (menuItem == null)
             {
                 return NotFound();
