@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace RMSProject.Models
 {
-    public class NutrionalInformation
+    public class NutritionalInformation
     {
         // Primary Key
         public int Id { get; set; }
@@ -16,34 +16,34 @@ namespace RMSProject.Models
         public MenuItem MenuItem { get; set; }
 
         [Required]
-        [Display(Name = "Calories")]
+        [Display(Name = "Calories (kcal)")]
         public int Calories { get; set; }
 
         [Required]
-        [Display(Name = "Carbs")]
-        public int Carbs{ get; set; }
+        [Display(Name = "Carbs (g)")]
+        public int Carbs { get; set; }
 
         [Required]
-        [Display(Name = "Sugar")]
+        [Display(Name = "Sugar (g)")]
         public int Sugar { get; set; }
 
         [Required]
-        [Display(Name = "Protein")]
+        [Display(Name = "Protein (g)")]
         public int Protein { get; set; }
 
         [Required]
-        [Display(Name = "Fats")]
+        [Display(Name = "Fats (g)")]
         public int Fats { get; set; }
 
-        [Required]
+
         [Display(Name = "Vegan")]
         public bool IsVegan { get; set; }
 
-        [Required]
+
         [Display(Name = "Vegetarian")]
         public bool IsVegetarian { get; set; }
 
-        [Required]
+
         [Display(Name = "Nuts")]
         public bool HasNuts { get; set; }
     }

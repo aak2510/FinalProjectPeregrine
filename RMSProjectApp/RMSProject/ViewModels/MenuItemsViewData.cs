@@ -5,9 +5,9 @@ namespace RMSProject.ViewModels
     public class MenuItemsViewData
     {
 
-        public List<MenuItem> MenuItem { get; set; }
+        public MenuItem MenuItem { get; set; }
 
        
-        public NutrionalInformation NutrionalInformation { get; set; }
+        public NutritionalInformation NutritionalInformation { get; set; }
     }
 }

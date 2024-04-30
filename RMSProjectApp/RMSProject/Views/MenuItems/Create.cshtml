@@ -1,4 +1,4 @@
-﻿@model RMSProject.Models.MenuItem
+﻿@model RMSProject.ViewModels.MenuItemsViewData
 
 @{
     ViewData["Title"] = "Create";
@@ -9,36 +9,91 @@
 <h4>MenuItem</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ItemName" class="control-label"></label>
-                <input asp-for="ItemName" class="form-control" />
-                <span asp-validation-for="ItemName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ItemPrice" class="control-label"></label>
-                <input asp-for="ItemPrice" class="form-control" />
-                <span asp-validation-for="ItemPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TypeOfMeal" class="control-label"></label>
-                <select asp-for="TypeOfMeal" class="form-control">
-                    <option value="" disabled selected>Select a Meal type...</option>
-                    <option value="Starter">Starter</option>
-                    <option value="Main">Main</option>
-                    <option value="Dessert">Dessert</option>
-                    <option value="Side">Side</option>
-                    <option value="Drink">Drink</option>
-                </select>
+    <div class="col-md-12">
+        <form asp-action="Create" class="CreateForm">
 
-                <span asp-validation-for="TypeOfMeal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ItemDescription" class="control-label"></label>
-                <textarea asp-for="ItemDescription" class="form-control" type="text" rows="10" style="resize:none" placeholder="Add a short description describing what the item is."></textarea>
-                <span asp-validation-for="ItemDescription" class="text-danger"></span>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="MenuItemForm">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label asp-for="MenuItem.ItemName" class="control-label"></label>
+                        <input asp-for="MenuItem.ItemName" class="form-control" placeholder="E.g. Pepperoni Pizza" />
+                        <span asp-validation-for="MenuItem.ItemName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MenuItem.ItemPrice" class="control-label"></label>
+                        <input asp-for="MenuItem.ItemPrice" class="form-control" placeholder="Enter a number" />
+                        <span asp-validation-for="MenuItem.ItemPrice" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MenuItem.TypeOfMeal" class="control-label"></label>
+                        <select asp-for="MenuItem.TypeOfMeal" class="form-control">
+                            <option disabled selected>Select a Meal type...</option>
+                            <option value="Starter">Starter</option>
+                            <option value="Main">Main</option>
+                            <option value="Dessert">Dessert</option>
+                            <option value="Side">Side</option>
+                            <option value="Drink">Drink</option>
+                        </select>
+
+                        <span asp-validation-for="MenuItem.TypeOfMeal" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MenuItem.ItemDescription" class="control-label"></label>
+                        <textarea asp-for="MenuItem.ItemDescription" class="form-control" type="text" rows="10" style="resize:none" placeholder="Add a short description describing what the item is."></textarea>
+                        <span asp-validation-for="MenuItem.ItemDescription" class="text-danger"></span>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label asp-for="NutritionalInformation.Calories" class="control-label"></label>
+                        <input asp-for="NutritionalInformation.Calories" class="form-control" placeholder="999" />
+                        <span asp-validation-for="NutritionalInformation.Calories" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NutritionalInformation.Carbs" class="control-label"></label>
+                        <input asp-for="NutritionalInformation.Carbs" class="form-control" placeholder="999" />
+                        <span asp-validation-for="NutritionalInformation.Carbs" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NutritionalInformation.Sugar" class="control-label"></label>
+                        <input asp-for="NutritionalInformation.Sugar" class="form-control" placeholder="999" />
+                        <span asp-validation-for="NutritionalInformation.Sugar" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NutritionalInformation.Protein" class="control-label"></label>
+                        <input asp-for="NutritionalInformation.Protein" class="form-control" placeholder="999" />
+                        <span asp-validation-for="NutritionalInformation.Protein" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NutritionalInformation.Fats" class="control-label"></label>
+                        <input asp-for="NutritionalInformation.Fats" class="form-control" placeholder="999" />
+                        <span asp-validation-for="NutritionalInformation.Fats" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="form-check">
+                            <label asp-for="NutritionalInformation.IsVegetarian" class="control-label"></label>
+                            <input class="form-check-input" type="checkbox" asp-for="NutritionalInformation.IsVegetarian" class="form-control" placeholder="999" value="true" />
+                            <span asp-validation-for="NutritionalInformation.IsVegetarian" class="text-danger"></span>
+                        </div>
+                        <div class="form-check">
+
+                            <label asp-for="NutritionalInformation.IsVegan" class="control-label"></label>
+                            <input class="form-check-input" type="checkbox" asp-for="NutritionalInformation.IsVegan" class="form-control" placeholder="999" value="true" />
+                            <span asp-validation-for="NutritionalInformation.IsVegan" class="text-danger"></span>
+                        </div>
+                        <div class="form-check">
+                            <label asp-for="NutritionalInformation.HasNuts" class="control-label"></label>
+                            <input class="form-check-input" type="checkbox" asp-for="NutritionalInformation.HasNuts" class="form-control" placeholder="999" value="true"/>
+                            <span asp-validation-for="NutritionalInformation.HasNuts" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
             </div>
             @* Temporary space between button div and inputs, to be adjusted in CSS file *@
             <br />
