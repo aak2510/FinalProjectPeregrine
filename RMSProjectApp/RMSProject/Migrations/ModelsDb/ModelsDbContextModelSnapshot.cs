@@ -31,11 +31,13 @@ namespace RMSProject.Migrations.ModelsDb
 
                     b.Property<string>("ItemDescription")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("ItemName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("ItemPrice")
                         .HasColumnType("decimal(18,2)");
@@ -48,7 +50,7 @@ namespace RMSProject.Migrations.ModelsDb
                     b.ToTable("MenuItem");
                 });
 
-            modelBuilder.Entity("RMSProject.Models.NutrionalInformation", b =>
+            modelBuilder.Entity("RMSProject.Models.NutritionalInformation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,10 +89,10 @@ namespace RMSProject.Migrations.ModelsDb
 
                     b.HasIndex("MenuItemId");
 
-                    b.ToTable("NutrionalInformation");
+                    b.ToTable("NutritionalInformation");
                 });
 
-            modelBuilder.Entity("RMSProject.Models.NutrionalInformation", b =>
+            modelBuilder.Entity("RMSProject.Models.NutritionalInformation", b =>
                 {
                     b.HasOne("RMSProject.Models.MenuItem", "MenuItem")
                         .WithMany()

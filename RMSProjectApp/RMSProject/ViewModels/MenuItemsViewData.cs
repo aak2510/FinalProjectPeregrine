@@ -9,5 +9,7 @@ namespace RMSProject.ViewModels
 
        
         public NutritionalInformation NutritionalInformation { get; set; }
+
+   
     }
 }

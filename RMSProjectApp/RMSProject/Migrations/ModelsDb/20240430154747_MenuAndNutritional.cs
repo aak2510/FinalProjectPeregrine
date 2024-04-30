@@ -5,7 +5,7 @@
 namespace RMSProject.Migrations.ModelsDb
 {
     /// <inheritdoc />
-    public partial class MenuItemsAndNutrionalInfo : Migration
+    public partial class MenuAndNutritional : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,8 +16,8 @@ namespace RMSProject.Migrations.ModelsDb
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ItemName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ItemDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ItemName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ItemDescription = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     ItemPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TypeOfMeal = table.Column<int>(type: "int", nullable: false)
                 },
@@ -27,7 +27,7 @@ namespace RMSProject.Migrations.ModelsDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "NutrionalInformation",
+                name: "NutritionalInformation",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -44,9 +44,9 @@ namespace RMSProject.Migrations.ModelsDb
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NutrionalInformation", x => x.Id);
+                    table.PrimaryKey("PK_NutritionalInformation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_NutrionalInformation_MenuItem_MenuItemId",
+                        name: "FK_NutritionalInformation_MenuItem_MenuItemId",
                         column: x => x.MenuItemId,
                         principalTable: "MenuItem",
                         principalColumn: "Id",
@@ -54,8 +54,8 @@ namespace RMSProject.Migrations.ModelsDb
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_NutrionalInformation_MenuItemId",
-                table: "NutrionalInformation",
+                name: "IX_NutritionalInformation_MenuItemId",
+                table: "NutritionalInformation",
                 column: "MenuItemId");
         }
 
@@ -63,7 +63,7 @@ namespace RMSProject.Migrations.ModelsDb
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "NutrionalInformation");
+                name: "NutritionalInformation");
 
             migrationBuilder.DropTable(
                 name: "MenuItem");

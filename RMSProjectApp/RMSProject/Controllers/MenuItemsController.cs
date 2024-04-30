@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RMSProject.Data;
 using RMSProject.Models;
+using RMSProject.ViewModels;
 
 namespace RMSProject.Controllers
 {
@@ -52,7 +53,8 @@ namespace RMSProject.Controllers
         // GET: MenuItems/Create
         public IActionResult Create()
         {
-            return View();
+            MenuItemsViewData vm = new MenuItemsViewData();
+            return View(vm);
         }
 
         // POST: MenuItems/Create
@@ -60,15 +62,22 @@ namespace RMSProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ItemName,ItemPrice,TypeOfMeal, ItemDescription")] MenuItem menuItem)
+        public async Task<IActionResult> Create([Bind("MenuItem, NutritionalInformation")] MenuItemsViewData data)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(menuItem);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(menuItem);
+
+            //if (ModelState.IsValid)
+            //{
+            _context.MenuItem.Add(data.MenuItem);
+            await _context.SaveChangesAsync();
+            // get the primary key value, append that to nutional information foreign and then add into the table 
+            data.NutritionalInformation.MenuItemId = data.MenuItem.Id;
+            _context.NutritionalInformation.Add(data.NutritionalInformation);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+            //}
+
+
+            return View(data);
         }
 
         // GET: MenuItems/Edit/5

@@ -16,7 +16,7 @@ namespace RMSProject.Data
 
         public DbSet<MenuItem> MenuItem { get; set; } = default!;
 
-        public DbSet<NutrionalInformation> NutrionalInformation { get; set; } = default!;
+        public DbSet<NutritionalInformation> NutritionalInformation { get; set; } = default!;
 
   
     }

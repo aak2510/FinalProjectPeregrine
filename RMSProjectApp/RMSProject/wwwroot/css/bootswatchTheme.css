@@ -13893,13 +13893,13 @@ label,
     background-color: rgba(255, 255, 255, 0.075);
 }
 
-.MenuItemForm{
-    display:flex;
+.MenuItemForm {
+    display: flex;
     /*width:100%;*/
-    justify-content:space-between;
+    justify-content: space-between;
     flex-wrap: wrap;
 }
 
-.CreateForm{
+.CreateForm {
     /*width:100%;*/
 }
