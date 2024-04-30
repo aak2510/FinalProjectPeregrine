@@ -12,12 +12,14 @@ namespace RMSProject.Controllers
 {
     public class MenuItemsController : Controller
     {
+        // Dependency Injection (DI) for the database being used
         private readonly ModelsDbContext _context;
 
         public MenuItemsController(ModelsDbContext context)
         {
             _context = context;
         }
+
 
         // GET: MenuItems
         public async Task<IActionResult> Index()
@@ -58,7 +60,7 @@ namespace RMSProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ItemName,ItemPrice,TypeOfMeal")] MenuItem menuItem)
+        public async Task<IActionResult> Create([Bind("Id,ItemName,ItemPrice,TypeOfMeal, ItemDescription")] MenuItem menuItem)
         {
             if (ModelState.IsValid)
             {

@@ -25,7 +25,7 @@
             <div class="form-group">
                 <label asp-for="TypeOfMeal" class="control-label"></label>
                 <select asp-for="TypeOfMeal" class="form-control">
-                    <option>Click here to pick a type of meal!</option>
+                    <option value="" disabled selected>Select a Meal type...</option>
                     <option value="Starter">Starter</option>
                     <option value="Main">Main</option>
                     <option value="Dessert">Dessert</option>
@@ -34,6 +34,11 @@
                 </select>
 
                 <span asp-validation-for="TypeOfMeal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemDescription" class="control-label"></label>
+                <textarea asp-for="ItemDescription" class="form-control" type="text" rows="10" style="resize:none" placeholder="Add a short description describing what the item is."></textarea>
+                <span asp-validation-for="ItemDescription" class="text-danger"></span>
             </div>
             @* Temporary space between button div and inputs, to be adjusted in CSS file *@
             <br />

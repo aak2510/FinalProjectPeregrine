@@ -5,11 +5,27 @@
 namespace RMSProject.Migrations.ModelsDb
 {
     /// <inheritdoc />
-    public partial class NutrionalInformation : Migration
+    public partial class MenuItemsAndNutrionalInfo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "MenuItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ItemName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ItemDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ItemPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TypeOfMeal = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MenuItem", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "NutrionalInformation",
                 columns: table => new
@@ -48,6 +64,9 @@ namespace RMSProject.Migrations.ModelsDb
         {
             migrationBuilder.DropTable(
                 name: "NutrionalInformation");
+
+            migrationBuilder.DropTable(
+                name: "MenuItem");
         }
     }
 }

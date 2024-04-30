@@ -16,19 +16,8 @@ namespace RMSProject.Data
 
         public DbSet<MenuItem> MenuItem { get; set; } = default!;
 
-        public DbSet<Ingredients> Ingredients { get; set; } = default!;
-        
-        public DbSet<MenuIngredients> MenuIngredients { get; set; } = default!;
-
         public DbSet<NutrionalInformation> NutrionalInformation { get; set; } = default!;
 
-        // Override used to explicitly tell EF core that both the IngredientsId and MenuItemId
-        // are indeed the composite primary key for the junction table (MenuIngredients)
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<MenuIngredients>()
-                .HasKey(mi => new { mi.IngredientsId, mi.MenuItemId });
-        }
-
+  
     }
 }

@@ -21,40 +21,6 @@ namespace RMSProject.Migrations.ModelsDb
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("RMSProject.Models.Ingredients", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Ingredient")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Ingredients");
-                });
-
-            modelBuilder.Entity("RMSProject.Models.MenuIngredients", b =>
-                {
-                    b.Property<int>("IngredientsId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(0);
-
-                    b.Property<int>("MenuItemId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    b.HasKey("IngredientsId", "MenuItemId");
-
-                    b.HasIndex("MenuItemId");
-
-                    b.ToTable("MenuIngredients");
-                });
-
             modelBuilder.Entity("RMSProject.Models.MenuItem", b =>
                 {
                     b.Property<int>("Id")
@@ -62,6 +28,10 @@ namespace RMSProject.Migrations.ModelsDb
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ItemDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ItemName")
                         .IsRequired()
@@ -118,25 +88,6 @@ namespace RMSProject.Migrations.ModelsDb
                     b.HasIndex("MenuItemId");
 
                     b.ToTable("NutrionalInformation");
-                });
-
-            modelBuilder.Entity("RMSProject.Models.MenuIngredients", b =>
-                {
-                    b.HasOne("RMSProject.Models.Ingredients", "Ingredients")
-                        .WithMany()
-                        .HasForeignKey("IngredientsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RMSProject.Models.MenuItem", "MenuItem")
-                        .WithMany()
-                        .HasForeignKey("MenuItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ingredients");
-
-                    b.Navigation("MenuItem");
                 });
 
             modelBuilder.Entity("RMSProject.Models.NutrionalInformation", b =>
