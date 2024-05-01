@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RMSProject.Data;
 using RMSProject.Models;
 using RMSProject.ViewModels;
@@ -77,7 +79,7 @@ namespace RMSProject.Controllers
             //}
 
 
-            return View(data);
+            //return View(data);
         }
 
         // GET: MenuItems/Edit/5
@@ -89,11 +91,20 @@ namespace RMSProject.Controllers
             }
 
             var menuItem = await _context.MenuItem.FindAsync(id);
-            if (menuItem == null)
+
+            var nutritionalInfo = await _context.NutritionalInformation.FirstOrDefaultAsync(m => m.MenuItemId == id);
+
+
+            if (menuItem == null || nutritionalInfo == null)
             {
                 return NotFound();
             }
-            return View(menuItem);
+
+            MenuItemsViewData vm = new MenuItemsViewData();
+            vm.MenuItem = menuItem;
+            vm.NutritionalInformation = nutritionalInfo;
+
+            return View(vm);
         }
 
         // POST: MenuItems/Edit/5
@@ -101,23 +112,38 @@ namespace RMSProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ItemName,ItemPrice,TypeOfMeal")] MenuItem menuItem)
+
+        public async Task<IActionResult> Edit(int id, [Bind("MenuItem, NutritionalInformation")] MenuItemsViewData data)
         {
-            if (id != menuItem.Id)
+            // If there is no data that has been passed through, or the id fields and foreign key fields don't match up, then return not found
+            if ((data.MenuItem == null && data.NutritionalInformation == null) && (id != data.MenuItem.Id) && (id != data.NutritionalInformation.MenuItemId))
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //===================== Do the same for the create function ======================
+
+            // Otherwise, as the reference Navigational property is null when pass through, we need to reset it.
+            // This is because the model is a complex model and thus the state will not be valid.
+            data.NutritionalInformation.MenuItem = data.MenuItem;
+
+            // Once we have set the value, we need to clear the modestate value associated with that specific field
+            ModelState.ClearValidationState("NutritionalInformation.MenuItem");
+
+            // and re validate the model state
+            if (TryValidateModel(data.NutritionalInformation.MenuItem, "NutritionalInformation.MenuItem"))
             {
                 try
                 {
-                    _context.Update(menuItem);
+                    _context.MenuItem.Update(data.MenuItem);
                     await _context.SaveChangesAsync();
+                    _context.NutritionalInformation.Update(data.NutritionalInformation);
+                    await _context.SaveChangesAsync();
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MenuItemExists(menuItem.Id))
+                    if (!MenuItemExists(data.MenuItem.Id))
                     {
                         return NotFound();
                     }
@@ -128,7 +154,7 @@ namespace RMSProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(menuItem);
+            return View(data);
         }
 
         // GET: MenuItems/Delete/5

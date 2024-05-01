@@ -11,6 +11,12 @@
 <div class="row">
     <div class="col-md-12">
         <form asp-action="Edit">
+            @*Passing ID field through*@
+            <input asp-for="MenuItem.Id" type="hidden" />
+            <input asp-for="NutritionalInformation.Id" type="hidden" />
+            <input asp-for="NutritionalInformation.MenuItemId" type="hidden" />
+            @* <input asp-for="NutritionalInformation.MenuItem" type="hidden" /> *@
+            
             <div class="MenuItemForm">
                 <div class="col-md-5">
                     <div class="form-group">

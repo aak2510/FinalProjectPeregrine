@@ -13,6 +13,9 @@
         <form asp-action="Create" class="CreateForm">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@*           Atttempting to fix Id issue 
+            <input type="hidden" asp-for="MenuItem.Id" /> *@
+
             <div class="MenuItemForm">
                 <div class="col-md-5">
                     <div class="form-group">
