@@ -25,7 +25,7 @@ namespace RMSProject.Controllers
 
         // Don't need the HttpPost attribute because the method isn't changing the state of the app, just filtering data.
         // GET: MenuItems
-        public async Task<IActionResult> Index(string? searchString, string sortByKey)
+        public async Task<IActionResult> Index(string? searchString, string? sortByKey)
         {
 
             if (_context.MenuItem == null)
