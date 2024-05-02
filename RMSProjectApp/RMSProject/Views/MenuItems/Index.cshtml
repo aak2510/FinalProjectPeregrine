@@ -17,7 +17,7 @@
 <form asp-controller="MenuItems" asp-action="Index" method="get" class="d-flex flex-md-shrink-1">
 
     <lable for="searchString" class="my-auto me-2">Item to search for:</lable>
-    <input type="text" id="searchString" class="mx-sm-1" name="SearchString" placeholder="Menu Item name..." />
+    <input type="text" class="mx-sm-1" name="SearchString" value=@ViewData["SearchString"] placeholder="Menu Item name..." />
     <input type="submit" value="Filter" class="btn btn-primary mx-sm-2" />
     <input type="submit" asp-action="Index" class="btn btn-primary" value="Back" />
 
@@ -27,16 +27,16 @@
     <thead>
         <tr class="table-primary">
             <th>
-                <a asp-action="Index" asp-route-sortByKey="ItemName">@Html.DisplayNameFor(model => model.ItemName)</a>
+                <a asp-action="Index" asp-route-sortByKey="@ViewData["ItemName"]">@Html.DisplayNameFor(model => model.ItemName)</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortByKey="ItemPrice">@Html.DisplayNameFor(model => model.ItemPrice)</a>
+                <a asp-action="Index" asp-route-sortByKey="@ViewData["ItemPrice"]">@Html.DisplayNameFor(model => model.ItemPrice)</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sorsortByKeytBy="TypeOfMeal">@Html.DisplayNameFor(model => model.TypeOfMeal)</a>
+                <a asp-action="Index" asp-route-sortByKey="@ViewData["TypeOfMeal"]">@Html.DisplayNameFor(model => model.TypeOfMeal)</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortByKey="ItemDescription">@Html.DisplayNameFor(model => model.ItemDescription)</a>
+                @Html.DisplayNameFor(model => model.ItemDescription)
             </th>
             <th></th>
         </tr>

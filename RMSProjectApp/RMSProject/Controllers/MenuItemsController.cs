@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RMSProject.Data;
@@ -25,7 +26,7 @@ namespace RMSProject.Controllers
 
         // Don't need the HttpPost attribute because the method isn't changing the state of the app, just filtering data.
         // GET: MenuItems
-        public async Task<IActionResult> Index(string? searchString, string? sortByKey)
+        public async Task<IActionResult> Index(string? searchString, string sortByKey)
         {
 
             if (_context.MenuItem == null)
@@ -33,6 +34,15 @@ namespace RMSProject.Controllers
                 return Problem("Menu Item Entitiy set is null.");
             }
 
+            /*
+             * used to allow for both ascennding and decending order of sorting
+             */
+            ViewData["ItemName"] = String.IsNullOrEmpty(sortByKey) ? "ItemName_desc" : "";
+            ViewData["ItemPrice"] = sortByKey == "ItemPrice" ? "ItemPrice_desc" : "ItemPrice";
+            ViewData["TypeOfMeal"] = sortByKey == "TypeOfMeal" ? "TypeOfMeal_desc" : "TypeOfMeal";
+            ViewData["SearchString"] = searchString;
+
+          
             // Get all the movies - LINQ statement (default behaviour)
             var menuItems = from m in _context.MenuItem
                             select m;
@@ -44,24 +54,32 @@ namespace RMSProject.Controllers
                 menuItems = menuItems.Where(s => s.ItemName!.Contains(searchString));
             }
 
-            if (!String.IsNullOrEmpty(sortByKey))
+
+            switch (sortByKey)
             {
-                switch (sortByKey)
-                {
-                    case "ItemPrice ":
-                        menuItems = menuItems.OrderBy(s => s.ItemPrice);
-                        break;
-                    case "TypeOfMeal":
-                        menuItems = menuItems.OrderBy(s => s.TypeOfMeal);
-                        break;
-                    case "ItemName":
-                    default:
-                        menuItems = menuItems.OrderBy(s => s.ItemName);
-                        break;
+                case "ItemName_desc":
+                    menuItems = menuItems.OrderByDescending(s => s.ItemName);
+                    break;
+                case "ItemPrice_desc":
+                    menuItems = menuItems.OrderByDescending(s => s.ItemPrice);
+                    break;
+                case "TypeOfMeal_desc":
+                    menuItems = menuItems.OrderByDescending(s => s.TypeOfMeal);
+                    break;
+                case "ItemPrice":
+                    menuItems = menuItems.OrderBy(s => s.ItemPrice);
+                    break;
+                case "TypeOfMeal":
+                    menuItems = menuItems.OrderBy(S => S.TypeOfMeal);
+                    break;
+                default:
+                    menuItems = menuItems.OrderBy(s => s.ItemName);
+                    break;
 
 
-                }
             }
+
+           
 
 
             // The LINQ query is run against the database/executed and we return the result as a list
