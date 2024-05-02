@@ -38,18 +38,23 @@ namespace RMSProject.Controllers
                 return NotFound();
             }
 
-            var menuItem = await _context.MenuItem
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var menuItem = await _context.MenuItem.FirstOrDefaultAsync(m => m.Id == id);
 
-            // Todo: Display all ingredients and Macros information here using foriegn keys from Tables.
-            // Use view models where possible and remember DI (Interfaces methods etc).
+            var nutritionalInfo = await _context.NutritionalInformation.FirstOrDefaultAsync(m => m.MenuItemId == id);
 
-            if (menuItem == null)
+            // Todo: Use view models where possible and remember DI (Interfaces methods etc).
+
+
+            if (menuItem == null || nutritionalInfo == null)
             {
                 return NotFound();
             }
 
-            return View(menuItem);
+            MenuItemsViewData vm = new MenuItemsViewData();
+            vm.MenuItem = menuItem;
+            vm.NutritionalInformation = nutritionalInfo;
+
+            return View(vm);
         }
 
         // GET: MenuItems/Create
@@ -67,8 +72,6 @@ namespace RMSProject.Controllers
         public async Task<IActionResult> Create([Bind("MenuItem, NutritionalInformation")] MenuItemsViewData data)
         {
 
-            //if (ModelState.IsValid)
-            //{
             _context.MenuItem.Add(data.MenuItem);
             await _context.SaveChangesAsync();
             // get the primary key value, append that to nutional information foreign and then add into the table 
@@ -76,10 +79,7 @@ namespace RMSProject.Controllers
             _context.NutritionalInformation.Add(data.NutritionalInformation);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-            //}
 
-
-            //return View(data);
         }
 
         // GET: MenuItems/Edit/5
@@ -116,15 +116,14 @@ namespace RMSProject.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("MenuItem, NutritionalInformation")] MenuItemsViewData data)
         {
             // If there is no data that has been passed through, or the id fields and foreign key fields don't match up, then return not found
-            if ((data.MenuItem == null && data.NutritionalInformation == null) && (id != data.MenuItem.Id) && (id != data.NutritionalInformation.MenuItemId))
+            if ((data == null) || (id != data.MenuItem.Id) && (id != data.NutritionalInformation.MenuItemId))
             {
                 return NotFound();
             }
 
-            //===================== Do the same for the create function ======================
-
-            // Otherwise, as the reference Navigational property is null when pass through, we need to reset it.
+            // Otherwise, as the reference Navigational property is null when passed through, we need to reset it.
             // This is because the model is a complex model and thus the state will not be valid.
+            // So we set the property to the current MneuItem we are dealing with.
             data.NutritionalInformation.MenuItem = data.MenuItem;
 
             // Once we have set the value, we need to clear the modestate value associated with that specific field
@@ -135,6 +134,7 @@ namespace RMSProject.Controllers
             {
                 try
                 {
+                    // Save changes to the individual tables
                     _context.MenuItem.Update(data.MenuItem);
                     await _context.SaveChangesAsync();
                     _context.NutritionalInformation.Update(data.NutritionalInformation);

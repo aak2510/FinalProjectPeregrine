@@ -13895,11 +13895,10 @@ label,
 
 .MenuItemForm {
     display: flex;
-    /*width:100%;*/
     justify-content: space-between;
     flex-wrap: wrap;
 }
 
-.CreateForm {
-    /*width:100%;*/
+.disabled-Check > .form-check-input:disabled {
+    opacity: 1;
 }
