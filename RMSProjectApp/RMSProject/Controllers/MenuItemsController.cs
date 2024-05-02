@@ -25,7 +25,7 @@ namespace RMSProject.Controllers
 
         // Don't need the HttpPost attribute because the method isn't changing the state of the app, just filtering data.
         // GET: MenuItems
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string? searchString, string sortByKey)
         {
 
             if (_context.MenuItem == null)
@@ -44,7 +44,24 @@ namespace RMSProject.Controllers
                 menuItems = menuItems.Where(s => s.ItemName!.Contains(searchString));
             }
 
+            if (!String.IsNullOrEmpty(sortByKey))
+            {
+                switch (sortByKey)
+                {
+                    case "ItemPrice ":
+                        menuItems = menuItems.OrderBy(s => s.ItemPrice);
+                        break;
+                    case "TypeOfMeal":
+                        menuItems = menuItems.OrderBy(s => s.TypeOfMeal);
+                        break;
+                    case "ItemName":
+                    default:
+                        menuItems = menuItems.OrderBy(s => s.ItemName);
+                        break;
 
+
+                }
+            }
 
 
             // The LINQ query is run against the database/executed and we return the result as a list
