@@ -23,11 +23,32 @@ namespace RMSProject.Controllers
             _context = context;
         }
 
-
+        // Don't need the HttpPost attribute because the method isn't changing the state of the app, just filtering data.
         // GET: MenuItems
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.MenuItem.ToListAsync());
+
+            if (_context.MenuItem == null)
+            {
+                return Problem("Menu Item Entitiy set is null.");
+            }
+
+            // Get all the movies - LINQ statement (default behaviour)
+            var menuItems = from m in _context.MenuItem
+                            select m;
+
+            // If there is information that is submitted in the search field
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                // return all the items which contains the item name specified in the searchString
+                menuItems = menuItems.Where(s => s.ItemName!.Contains(searchString));
+            }
+
+
+
+
+            // The LINQ query is run against the database/executed and we return the result as a list
+            return View(await menuItems.ToListAsync());
         }
 
         // GET: MenuItems/Details/5

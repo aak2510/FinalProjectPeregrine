@@ -1,15 +1,29 @@
 ﻿@model IEnumerable<RMSProject.Models.MenuItem>
 
 @{
-    ViewData["Title"] = "Menu Page";
+    ViewData["Title"] = "Home Page";
 }
 
-<h1>Index</h1>
+<h1>Home Page - All Menu Items</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Add New Menu Item</a>
 </p>
-<table class="table">
+
+@*
+    HttpGet method used here to capture that search information in the URL to bookmark or share with others.
+    Otherwise, the information would be sent with the request body to the server.
+*@
+<form asp-controller="MenuItems" asp-action="Index" method="get" class="d-flex flex-md-shrink-1">
+
+    <lable for="searchString" class="my-auto me-2">Item to search for:</lable>
+    <input type="text" id="searchString" class="mx-sm-1" name="SearchString" placeholder="Menu Item name..." />
+    <input type="submit" value="Filter" class="btn btn-primary mx-sm-2" />
+    <input type="submit" asp-action="Index" class="btn btn-primary" value="Back"/>
+
+</form>
+
+<table class="table my-4">
     <thead>
         <tr>
             <th>
@@ -34,7 +48,7 @@
                 <td width="15%">
                     @Html.DisplayFor(modelItem => item.ItemName)
                 </td>
-                <td width ="15%">
+                <td width="15%">
                     @Html.DisplayFor(modelItem => item.ItemPrice)
                 </td>
                 <td width="10%">
@@ -43,7 +57,7 @@
                 <td width="20%">
                     @Html.DisplayFor(modelItem => item.ItemDescription)
                 </td>
-                
+
                 <td width="15%">
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

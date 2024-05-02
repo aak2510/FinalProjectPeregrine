@@ -13902,3 +13902,7 @@ label,
 .disabled-Check > .form-check-input:disabled {
     opacity: 1;
 }
+
+.searchField {
+    width: 25% !important;
+}
