@@ -40,7 +40,6 @@ namespace RMSProject.Controllers
             ViewData["ItemName"] = String.IsNullOrEmpty(sortByKey) ? "ItemName_desc" : "";
             ViewData["ItemPrice"] = sortByKey == "ItemPrice" ? "ItemPrice_desc" : "ItemPrice";
             ViewData["TypeOfMeal"] = sortByKey == "TypeOfMeal" ? "TypeOfMeal_desc" : "TypeOfMeal";
-            ViewData["SearchString"] = searchString;
 
           
             // Get all the movies - LINQ statement (default behaviour)
@@ -203,6 +202,7 @@ namespace RMSProject.Controllers
                     {
                         return NotFound();
                     }
+                    // Deal with this...
                     else
                     {
                         throw;

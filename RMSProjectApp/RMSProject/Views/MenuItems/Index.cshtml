@@ -19,7 +19,7 @@
     <lable for="searchString" class="my-auto me-2">Item to search for:</lable>
     <input type="text" class="mx-sm-1" name="SearchString" value=@ViewData["SearchString"] placeholder="Menu Item name..." />
     <input type="submit" value="Filter" class="btn btn-primary mx-sm-2" />
-    <input type="submit" asp-action="Index" class="btn btn-primary" value="Back" />
+    <input type="submit" asp-controller="MenuItems" asp-action="Index" class="btn btn-secondary" value="Back" />
 
 </form>
 
