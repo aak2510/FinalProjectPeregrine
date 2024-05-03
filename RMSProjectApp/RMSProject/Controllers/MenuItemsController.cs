@@ -41,7 +41,7 @@ namespace RMSProject.Controllers
             ViewData["ItemPrice"] = sortByKey == "ItemPrice" ? "ItemPrice_desc" : "ItemPrice";
             ViewData["TypeOfMeal"] = sortByKey == "TypeOfMeal" ? "TypeOfMeal_desc" : "TypeOfMeal";
 
-          
+
             // Get all the movies - LINQ statement (default behaviour)
             var menuItems = from m in _context.MenuItem
                             select m;
@@ -78,7 +78,7 @@ namespace RMSProject.Controllers
 
             }
 
-           
+
 
 
             // The LINQ query is run against the database/executed and we return the result as a list
@@ -133,6 +133,7 @@ namespace RMSProject.Controllers
             data.NutritionalInformation.MenuItemId = data.MenuItem.Id;
             _context.NutritionalInformation.Add(data.NutritionalInformation);
             await _context.SaveChangesAsync();
+            TempData["Success"] = "New item has been successfully created!";
             return RedirectToAction(nameof(Index));
 
         }
@@ -145,16 +146,18 @@ namespace RMSProject.Controllers
                 return NotFound();
             }
 
+            // Get the menu item associated with the id
             var menuItem = await _context.MenuItem.FindAsync(id);
-
+            //Get the corresponding nutritional information 
             var nutritionalInfo = await _context.NutritionalInformation.FirstOrDefaultAsync(m => m.MenuItemId == id);
 
-
+            // Check if we have both value from the database
             if (menuItem == null || nutritionalInfo == null)
             {
                 return NotFound();
             }
 
+            //Construct a view model object to display/return
             MenuItemsViewData vm = new MenuItemsViewData();
             vm.MenuItem = menuItem;
             vm.NutritionalInformation = nutritionalInfo;
@@ -208,6 +211,7 @@ namespace RMSProject.Controllers
                         throw;
                     }
                 }
+                TempData["Success"] = "Menu Item has been successfully Edited!";
                 return RedirectToAction(nameof(Index));
             }
             return View(data);
@@ -243,6 +247,7 @@ namespace RMSProject.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["Success"] = "Menu Item has been successfully Delete!";
             return RedirectToAction(nameof(Index));
         }
 
