@@ -18,22 +18,27 @@ namespace RMSProject.Models
         public MenuItem MenuItem { get; set; }
 
         [Required]
+        [Range(0, 3000, ErrorMessage = "Please enter a value between 0 and 3000")]
         [Display(Name = "Calories (kcal)")]
         public int Calories { get; set; }
 
         [Required]
+        [Range(0, 3000, ErrorMessage = "Please enter a value between 0 and 3000")]
         [Display(Name = "Carbs (g)")]
         public int Carbs { get; set; }
 
         [Required]
+        [Range(0, 3000, ErrorMessage = "Please enter a value between 0 and 3000")]
         [Display(Name = "Sugar (g)")]
         public int Sugar { get; set; }
 
         [Required]
+        [Range(0, 3000, ErrorMessage = "Please enter a value between 0 and 3000")]
         [Display(Name = "Protein (g)")]
         public int Protein { get; set; }
 
         [Required]
+        [Range(0, 3000, ErrorMessage = "Please enter a value between 0 and 3000")]
         [Display(Name = "Fats (g)")]
         public int Fats { get; set; }
 
