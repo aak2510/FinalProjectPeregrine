@@ -21,9 +21,9 @@ namespace RMSProject.Controllers
         // Dependency Injection (DI) for the repositories being used
         private readonly IUnitOfWork _unitOfWork;
 
-        public MenuItemsController(IUnitOfWork _unitOfWork)
+        public MenuItemsController(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = _unitOfWork;
+            _unitOfWork = unitOfWork;
 
             
         }
@@ -80,9 +80,6 @@ namespace RMSProject.Controllers
 
 
             }
-
-
-
 
             // Return the result as a list
             return View(await menuItems.ToListAsync());

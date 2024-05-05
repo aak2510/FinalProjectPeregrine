@@ -1,6 +1,4 @@
-﻿using RMSProject.Models;
-
-namespace RMSProject.Repositories.IRepository
+﻿namespace RMSProject.Repositories.IRepository
 {
 
 
