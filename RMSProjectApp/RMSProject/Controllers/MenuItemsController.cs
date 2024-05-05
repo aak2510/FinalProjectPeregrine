@@ -10,30 +10,29 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RMSProject.Data;
 using RMSProject.Models;
+using RMSProject.Repositories;
+using RMSProject.Repositories.IRepository;
 using RMSProject.ViewModels;
 
 namespace RMSProject.Controllers
 {
     public class MenuItemsController : Controller
     {
-        // Dependency Injection (DI) for the database being used
-        private readonly ModelsDbContext _context;
+        // Dependency Injection (DI) for the repositories being used
+        private readonly IMenuItemsRepository _contextMenuItems;
+        private readonly INutritionalInformationRepository _contextNutritional;
 
-        public MenuItemsController(ModelsDbContext context)
+        public MenuItemsController(IMenuItemsRepository menuItemContext, INutritionalInformationRepository nutritionalContext)
         {
-            _context = context;
+            _contextMenuItems = menuItemContext;
+            _contextNutritional = nutritionalContext;
+
         }
 
         // Don't need the HttpPost attribute because the method isn't changing the state of the app, just filtering data.
         // GET: MenuItems
         public async Task<IActionResult> Index(string? searchString, string sortByKey)
         {
-
-            if (_context.MenuItem == null)
-            {
-                return Problem("Menu Item Entitiy set is null.");
-            }
-
             /*
              * used to allow for both ascennding and decending order of sorting
              */
@@ -42,9 +41,14 @@ namespace RMSProject.Controllers
             ViewData["TypeOfMeal"] = sortByKey == "TypeOfMeal" ? "TypeOfMeal_desc" : "TypeOfMeal";
 
 
-            // Get all the movies - LINQ statement (default behaviour)
-            var menuItems = from m in _context.MenuItem
-                            select m;
+            // Get all the movies using repository 
+            var menuItems = _contextMenuItems.GetAll();
+
+            // If there are no items, then return objectresult response for problem.
+            if (menuItems == null)
+            {
+                return Problem("Menu Item Entitiy set is null.");
+            }
 
             // If there is information that is submitted in the search field
             if (!String.IsNullOrEmpty(searchString))
@@ -81,7 +85,7 @@ namespace RMSProject.Controllers
 
 
 
-            // The LINQ query is run against the database/executed and we return the result as a list
+            // Return the result as a list
             return View(await menuItems.ToListAsync());
         }
 
@@ -93,9 +97,9 @@ namespace RMSProject.Controllers
                 return NotFound();
             }
 
-            var menuItem = await _context.MenuItem.FirstOrDefaultAsync(m => m.Id == id);
+            var menuItem = _contextMenuItems.GetFirstOrDefault(m => m.Id == id);
 
-            var nutritionalInfo = await _context.NutritionalInformation.FirstOrDefaultAsync(m => m.MenuItemId == id);
+            var nutritionalInfo = _contextNutritional.GetFirstOrDefault(m => m.MenuItemId == id);
 
             // Todo: Use view models where possible and remember DI (Interfaces methods etc).
 
@@ -127,12 +131,16 @@ namespace RMSProject.Controllers
         public async Task<IActionResult> Create([Bind("MenuItem, NutritionalInformation")] MenuItemsViewData data)
         {
 
-            _context.MenuItem.Add(data.MenuItem);
-            await _context.SaveChangesAsync();
+            _contextMenuItems.Add(data.MenuItem);
+            _contextMenuItems.SaveChanges();
+
             // get the primary key value, append that to nutional information foreign and then add into the table 
             data.NutritionalInformation.MenuItemId = data.MenuItem.Id;
-            _context.NutritionalInformation.Add(data.NutritionalInformation);
-            await _context.SaveChangesAsync();
+
+            _contextNutritional.Add(data.NutritionalInformation);
+            _contextNutritional.SaveChanges();
+
+
             TempData["Success"] = "New item has been successfully created!";
             return RedirectToAction(nameof(Index));
 
@@ -147,9 +155,9 @@ namespace RMSProject.Controllers
             }
 
             // Get the menu item associated with the id
-            var menuItem = await _context.MenuItem.FindAsync(id);
+            var menuItem = _contextMenuItems.GetFirstOrDefault(u => u.Id == id);
             //Get the corresponding nutritional information 
-            var nutritionalInfo = await _context.NutritionalInformation.FirstOrDefaultAsync(m => m.MenuItemId == id);
+            var nutritionalInfo = _contextNutritional.GetFirstOrDefault(m => m.MenuItemId == id);
 
             // Check if we have both value from the database
             if (menuItem == null || nutritionalInfo == null)
@@ -190,27 +198,15 @@ namespace RMSProject.Controllers
             // and re validate the model state
             if (TryValidateModel(data.NutritionalInformation.MenuItem, "NutritionalInformation.MenuItem"))
             {
-                try
-                {
-                    // Save changes to the individual tables
-                    _context.MenuItem.Update(data.MenuItem);
-                    await _context.SaveChangesAsync();
-                    _context.NutritionalInformation.Update(data.NutritionalInformation);
-                    await _context.SaveChangesAsync();
 
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MenuItemExists(data.MenuItem.Id))
-                    {
-                        return NotFound();
-                    }
-                    // Deal with this...
-                    else
-                    {
-                        throw;
-                    }
-                }
+
+                // Save changes to the individual tables
+                _contextMenuItems.Update(data.MenuItem);
+                _contextMenuItems.SaveChanges();
+                _contextNutritional.Update(data.NutritionalInformation);
+                _contextNutritional.SaveChanges();
+
+
                 TempData["Success"] = "Menu Item has been successfully Edited!";
                 return RedirectToAction(nameof(Index));
             }
@@ -225,8 +221,7 @@ namespace RMSProject.Controllers
                 return NotFound();
             }
 
-            var menuItem = await _context.MenuItem
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var menuItem = _contextMenuItems.GetFirstOrDefault(m => m.Id == id);
             if (menuItem == null)
             {
                 return NotFound();
@@ -240,20 +235,19 @@ namespace RMSProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var menuItem = await _context.MenuItem.FindAsync(id);
-            if (menuItem != null)
+            var menuItem = _contextMenuItems.GetFirstOrDefault(m => m.Id == id);
             {
-                _context.MenuItem.Remove(menuItem);
+                _contextMenuItems.Delete(menuItem);
             }
 
-            await _context.SaveChangesAsync();
+            _contextMenuItems.SaveChanges();
             TempData["Success"] = "Menu Item has been successfully Delete!";
             return RedirectToAction(nameof(Index));
         }
 
         private bool MenuItemExists(int id)
         {
-            return _context.MenuItem.Any(e => e.Id == id);
+            return _contextMenuItems.FindAny(e => e.Id == id);
         }
     }
 }
