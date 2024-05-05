@@ -19,14 +19,13 @@ namespace RMSProject.Controllers
     public class MenuItemsController : Controller
     {
         // Dependency Injection (DI) for the repositories being used
-        private readonly IMenuItemsRepository _contextMenuItems;
-        private readonly INutritionalInformationRepository _contextNutritional;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public MenuItemsController(IMenuItemsRepository menuItemContext, INutritionalInformationRepository nutritionalContext)
+        public MenuItemsController(IUnitOfWork _unitOfWork)
         {
-            _contextMenuItems = menuItemContext;
-            _contextNutritional = nutritionalContext;
+            this._unitOfWork = _unitOfWork;
 
+            
         }
 
         // Don't need the HttpPost attribute because the method isn't changing the state of the app, just filtering data.
@@ -42,7 +41,7 @@ namespace RMSProject.Controllers
 
 
             // Get all the movies using repository 
-            var menuItems = _contextMenuItems.GetAll();
+            var menuItems = _unitOfWork.MenuItemsRepository.GetAll();
 
             // If there are no items, then return objectresult response for problem.
             if (menuItems == null)
@@ -97,9 +96,9 @@ namespace RMSProject.Controllers
                 return NotFound();
             }
 
-            var menuItem = _contextMenuItems.GetFirstOrDefault(m => m.Id == id);
+            var menuItem = _unitOfWork.MenuItemsRepository.GetFirstOrDefault(m => m.Id == id);
 
-            var nutritionalInfo = _contextNutritional.GetFirstOrDefault(m => m.MenuItemId == id);
+            var nutritionalInfo = _unitOfWork.NutritionalInformationRepository.GetFirstOrDefault(m => m.MenuItemId == id);
 
             // Todo: Use view models where possible and remember DI (Interfaces methods etc).
 
@@ -131,14 +130,14 @@ namespace RMSProject.Controllers
         public async Task<IActionResult> Create([Bind("MenuItem, NutritionalInformation")] MenuItemsViewData data)
         {
 
-            _contextMenuItems.Add(data.MenuItem);
-            _contextMenuItems.SaveChanges();
+            _unitOfWork.MenuItemsRepository.Add(data.MenuItem);
+            _unitOfWork.SaveChanges();
 
             // get the primary key value, append that to nutional information foreign and then add into the table 
             data.NutritionalInformation.MenuItemId = data.MenuItem.Id;
 
-            _contextNutritional.Add(data.NutritionalInformation);
-            _contextNutritional.SaveChanges();
+            _unitOfWork.NutritionalInformationRepository.Add(data.NutritionalInformation);
+            _unitOfWork.SaveChanges();
 
 
             TempData["Success"] = "New item has been successfully created!";
@@ -155,9 +154,9 @@ namespace RMSProject.Controllers
             }
 
             // Get the menu item associated with the id
-            var menuItem = _contextMenuItems.GetFirstOrDefault(u => u.Id == id);
+            var menuItem = _unitOfWork.MenuItemsRepository.GetFirstOrDefault(u => u.Id == id);
             //Get the corresponding nutritional information 
-            var nutritionalInfo = _contextNutritional.GetFirstOrDefault(m => m.MenuItemId == id);
+            var nutritionalInfo = _unitOfWork.NutritionalInformationRepository.GetFirstOrDefault(m => m.MenuItemId == id);
 
             // Check if we have both value from the database
             if (menuItem == null || nutritionalInfo == null)
@@ -200,11 +199,11 @@ namespace RMSProject.Controllers
             {
 
 
-                // Save changes to the individual tables
-                _contextMenuItems.Update(data.MenuItem);
-                _contextMenuItems.SaveChanges();
-                _contextNutritional.Update(data.NutritionalInformation);
-                _contextNutritional.SaveChanges();
+                // Add and Save changes to the individual tables
+                _unitOfWork.MenuItemsRepository.Update(data.MenuItem);
+                _unitOfWork.SaveChanges();
+                _unitOfWork.NutritionalInformationRepository.Update(data.NutritionalInformation);
+                _unitOfWork.SaveChanges();
 
 
                 TempData["Success"] = "Menu Item has been successfully Edited!";
@@ -221,7 +220,7 @@ namespace RMSProject.Controllers
                 return NotFound();
             }
 
-            var menuItem = _contextMenuItems.GetFirstOrDefault(m => m.Id == id);
+            var menuItem = _unitOfWork.MenuItemsRepository.GetFirstOrDefault(m => m.Id == id);
             if (menuItem == null)
             {
                 return NotFound();
@@ -235,19 +234,19 @@ namespace RMSProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var menuItem = _contextMenuItems.GetFirstOrDefault(m => m.Id == id);
+            var menuItem = _unitOfWork.MenuItemsRepository.GetFirstOrDefault(m => m.Id == id);
             {
-                _contextMenuItems.Delete(menuItem);
+                _unitOfWork.MenuItemsRepository.Delete(menuItem);
             }
 
-            _contextMenuItems.SaveChanges();
+            _unitOfWork.SaveChanges();
             TempData["Success"] = "Menu Item has been successfully Delete!";
             return RedirectToAction(nameof(Index));
         }
 
         private bool MenuItemExists(int id)
         {
-            return _contextMenuItems.FindAny(e => e.Id == id);
+            return _unitOfWork.MenuItemsRepository.FindAny(e => e.Id == id);
         }
     }
 }

@@ -13,14 +13,10 @@ namespace RMSProject.Repositories
             _context = dbContext;
         }
 
-        public void SaveChanges()
-        {
-            _context.SaveChanges();
-        }
 
         public void Update(NutritionalInformation item)
         {
-            _context.Update(item);
+            _context.NutritionalInformation.Update(item);
         }
 
 

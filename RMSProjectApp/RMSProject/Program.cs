@@ -21,10 +21,11 @@ builder.Services.AddDbContext<ModelsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ModelsDbContext") ?? throw new InvalidOperationException("Connection string 'ModelsDbContext' not found.")));
 
 
-// Add the repository to the dependency container as we are using a service and we want to create it once instead of calling it in each class/controller implementation.
+// By implementing a UnitOfWork class, we don't need to add each individual repository we create to the container. We can simply add just add the UnitOfWork to the container,
+// which will take care of the DI for us with each repository.
 // Service Life time option is scoped, which means a new object is created each time one of the controller actions are executed and destroyed when a new action is executed
-builder.Services.AddScoped<IMenuItemsRepository, MenuItemsRepository>();
-builder.Services.AddScoped<INutritionalInformationRepository, NutritionalInformationRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
 
 var app = builder.Build();

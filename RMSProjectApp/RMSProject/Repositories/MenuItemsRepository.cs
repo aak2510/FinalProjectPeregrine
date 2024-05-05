@@ -15,14 +15,9 @@ namespace RMSProject.Repositories
             _context = dbContext;
         }
 
-        public void SaveChanges()
-        {
-            _context.SaveChanges();
-        }
-
         public void Update(MenuItem item)
         {
-            _context.Update(item);
+            _context.MenuItem.Update(item);
         }
 
         public bool FindAny(Expression<Func<MenuItem, bool>> expression)
