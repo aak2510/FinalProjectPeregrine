@@ -1,0 +1,16 @@
+﻿<div class="allergen-info">
+    @if (ViewBag.HasNuts)
+    {
+        <span class="badge rounded-pill bg-warning">Contains Nuts</span>
+    }
+
+    @if (ViewBag.IsVegetarian)
+    {
+        <span class="badge rounded-pill bg-success">Vegetarian</span>
+    }
+
+    @if (ViewBag.IsVegan)
+    {
+        <span class="badge rounded-pill bg-success">Vegan</span>
+    }
+</div>

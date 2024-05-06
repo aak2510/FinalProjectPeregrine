@@ -26,6 +26,7 @@ namespace RMSProject.Models
         [Display(Name = "Type of meal")]
         public MealType TypeOfMeal { get; set; }
 
+        public string ImageUrl { get; set; }
     }
 
   

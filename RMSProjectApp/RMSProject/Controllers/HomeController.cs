@@ -21,14 +21,43 @@ namespace RMSProject.Controllers
 
             // Nutrional information has a Navigational Property to access MenuItems, so we will use that to display information
             IEnumerable<MenuItem> menuItems = _unitOfWork.MenuItemsRepository.GetAll();
-     
-            
+
+
             return View(menuItems);
         }
 
-        public IActionResult Privacy()
+        // GET: MenuItems/Details/5
+        public IActionResult Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var menuItem = _unitOfWork.MenuItemsRepository.GetFirstOrDefault(m => m.Id == id);
+
+            var nutritionalInfo = _unitOfWork.NutritionalInformationRepository.GetFirstOrDefault(m => m.MenuItemId == id);
+
+
+            if (menuItem == null || nutritionalInfo == null)
+            {
+                return NotFound();
+            }
+
+            // Add allegern information into view bag to display
+            ViewBag.HasNuts = nutritionalInfo.HasNuts;
+            ViewBag.IsVegetarian = nutritionalInfo.IsVegetarian;
+            ViewBag.IsVegan = nutritionalInfo.IsVegan;
+
+
+            // create view model
+            MenuItemsViewData vm = new MenuItemsViewData();
+            vm.MenuItem = menuItem;
+            vm.NutritionalInformation = nutritionalInfo;
+
+         
+
+            return View(vm);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

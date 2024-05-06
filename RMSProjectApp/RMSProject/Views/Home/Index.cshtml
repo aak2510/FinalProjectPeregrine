@@ -4,23 +4,29 @@
 <div class="row pb-3">
     @foreach (var item in Model)
     {
-        <div class="col-lg-3 col-md-6">
+        <div class="col-lg-4 col-md-6">
             <div class="row p-2">
-                <div class="col-12 p-1" style="border:2px solid black; border-radius:5px;">
-                    <div class="card">
+                <div class="col-12 p-1">
+                    <div class="card" style="border:2px solid black; border-radius:5px;">
                         @* Need to add an image of the dish *@
+
+
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <p class="card-title h5 text-primary">@item.ItemName</p>
                                 @*Using Html displayFor to allow the currency sign to be displayed*@
                                 <p class="card-title h5 text-primary"><strong>@Html.DisplayFor(modelItem => item.ItemPrice)</strong></p>
-
                             </div>
+
                             <div class="pl-1">
                                 <p class="card-title text-info">@item.ItemDescription</p>
                             </div>
                         </div>
-                        @*Add two buttons, one for nutritional information and the other to add to basket*@
+                        
+                        <div class="card-footer d-flex justify-content-around">
+                            <a asp-action="addToBasket" class="btn btn-primary">Add to basket</a>
+                            <a asp-controller="Home" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">More Details</a>
+                        </div>
                     </div>
                 </div>
             </div>
