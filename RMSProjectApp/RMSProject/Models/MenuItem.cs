@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace RMSProject.Models
@@ -9,7 +11,7 @@ namespace RMSProject.Models
 
         [Required]
         [MaxLength(100)]
-        [Display(Name ="Menu Item name")]
+        [Display(Name = "Menu Item name")]
         public string ItemName { get; set; }
 
         [Required]
@@ -26,9 +28,11 @@ namespace RMSProject.Models
         [Display(Name = "Type of meal")]
         public MealType TypeOfMeal { get; set; }
 
+        [Display(Name = "Image Upload")]
+        [Required]
         public string ImageUrl { get; set; }
     }
 
-  
-   
+
+
 }

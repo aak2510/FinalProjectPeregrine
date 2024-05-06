@@ -45,10 +45,15 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="MenuItem.ItemDescription" class="control-label"></label>
-                        <textarea asp-for="MenuItem.ItemDescription" class="form-control" type="text" rows="10" style="resize:none" placeholder="Add a short description describing what the item is."></textarea>
+                        <textarea asp-for="MenuItem.ItemDescription" class="form-control" type="text" rows="5" style="resize:none" placeholder="Add a short description describing what the item is."></textarea>
                         <span asp-validation-for="MenuItem.ItemDescription" class="text-danger"></span>
                     </div>
-
+                </div>
+                <div class="form-group">
+                    <label asp-for="MenuItem.ImageUrl" class="form-label"></label>
+                    <input asp-for="MenuItem.ImageUrl" class="form-control" type="file" id="formFile">
+                    <span asp-validation-for="MenuItem.ImageUrl" class="text-danger"></span>
+                </div>
 
                 </div>
 
@@ -104,14 +109,12 @@
             <br />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-danger">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{

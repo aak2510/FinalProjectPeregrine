@@ -124,7 +124,7 @@ namespace RMSProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MenuItem, NutritionalInformation")] MenuItemsViewData data)
+        public async Task<IActionResult> Create([Bind("MenuItem, NutritionalInformation")] MenuItemsViewData data, IFormFile file)
         {
 
             _unitOfWork.MenuItemsRepository.Add(data.MenuItem);
@@ -175,7 +175,7 @@ namespace RMSProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Edit(int id, [Bind("MenuItem, NutritionalInformation")] MenuItemsViewData data)
+        public async Task<IActionResult> Edit(int id, [Bind("MenuItem, NutritionalInformation")] MenuItemsViewData data, IFormFile file)
         {
             // If there is no data that has been passed through, or the id fields and foreign key fields don't match up, then return not found
             if ((data == null) || (id != data.MenuItem.Id) && (id != data.NutritionalInformation.MenuItemId))
