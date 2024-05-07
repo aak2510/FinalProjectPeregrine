@@ -4,8 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
+<h1>Add a new Menu Item</h1>
 <h4>Menu Item</h4>
 <p>Please fill ensure all details entered are correct.</p>
 <hr />
@@ -14,11 +13,9 @@
         <form asp-action="Create" class="CreateForm" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-@*           Atttempting to fix Id issue 
-            <input type="hidden" asp-for="MenuItem.Id" /> *@
 
-            <div class="MenuItemForm">
-                <div class="col-md-5">
+            <div class="MenuItemForm col-md-12">
+                <div class="flex-fill">
                     <div class="form-group">
                         <label asp-for="MenuItem.ItemName" class="control-label"></label>
                         <input asp-for="MenuItem.ItemName" class="form-control" placeholder="E.g. Pepperoni Pizza" />
@@ -44,42 +41,44 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="MenuItem.ItemDescription" class="control-label"></label>
-                        <textarea asp-for="MenuItem.ItemDescription" class="form-control" type="text" rows="5" style="resize:none" placeholder="Add a short description describing what the item is."></textarea>
+                        <textarea asp-for="MenuItem.ItemDescription" class="form-control" type="text" rows="3" style="resize:none" placeholder="Add a short description describing what the item is."></textarea>
                         <span asp-validation-for="MenuItem.ItemDescription" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="MenuItem.ImageUrl" class="form-label"></label>
-                        <input asp-for="MenuItem.ImageUrl" class="form-control" type="file" id="formFile" >
+                        <input asp-for="MenuItem.ImageUrl" class="form-control" type="file" id="formFile">
                         <span asp-validation-for="MenuItem.ImageUrl" class="text-danger"></span>
                     </div>
 
                 </div>
 
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label asp-for="NutritionalInformation.Calories" class="control-label"></label>
-                        <input asp-for="NutritionalInformation.Calories" class="form-control" placeholder="999" min="0" />
-                        <span asp-validation-for="NutritionalInformation.Calories" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="NutritionalInformation.Carbs" class="control-label"></label>
-                        <input asp-for="NutritionalInformation.Carbs" class="form-control" placeholder="999" min="0" />
-                        <span asp-validation-for="NutritionalInformation.Carbs" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="NutritionalInformation.Sugar" class="control-label"></label>
-                        <input asp-for="NutritionalInformation.Sugar" class="form-control" placeholder="999" min="0" />
-                        <span asp-validation-for="NutritionalInformation.Sugar" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="NutritionalInformation.Protein" class="control-label"></label>
-                        <input asp-for="NutritionalInformation.Protein" class="form-control" placeholder="999" min="0" />
-                        <span asp-validation-for="NutritionalInformation.Protein" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="NutritionalInformation.Fats" class="control-label"></label>
-                        <input asp-for="NutritionalInformation.Fats" class="form-control" placeholder="999" min="0" />
-                        <span asp-validation-for="NutritionalInformation.Fats" class="text-danger"></span>
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="NutritionalInformation.Calories" class="control-label"></label>
+                            <input asp-for="NutritionalInformation.Calories" class="form-control" placeholder="999" min="0" />
+                            <span asp-validation-for="NutritionalInformation.Calories" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="NutritionalInformation.Carbs" class="control-label"></label>
+                            <input asp-for="NutritionalInformation.Carbs" class="form-control" placeholder="999" min="0" />
+                            <span asp-validation-for="NutritionalInformation.Carbs" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="NutritionalInformation.Sugar" class="control-label"></label>
+                            <input asp-for="NutritionalInformation.Sugar" class="form-control" placeholder="999" min="0" />
+                            <span asp-validation-for="NutritionalInformation.Sugar" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="NutritionalInformation.Protein" class="control-label"></label>
+                            <input asp-for="NutritionalInformation.Protein" class="form-control" placeholder="999" min="0" />
+                            <span asp-validation-for="NutritionalInformation.Protein" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="NutritionalInformation.Fats" class="control-label"></label>
+                            <input asp-for="NutritionalInformation.Fats" class="form-control" placeholder="999" min="0" />
+                            <span asp-validation-for="NutritionalInformation.Fats" class="text-danger"></span>
+                        </div>
                     </div>
                     <br />
                     <div class="form-group">
