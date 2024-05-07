@@ -1,15 +1,13 @@
-﻿@model IEnumerable<MenuItem>
+﻿@model RMSProject.ViewModels.ListViewData
 
 
 <div class="row pb-3">
-    @foreach (var item in Model)
+    @foreach (var item in Model.MenuItems)
     {
         <div class="col-lg-4 col-md-6">
             <div class="row p-2">
                 <div class="col-12 p-1">
                     <div class="card" style="border:2px solid black; border-radius:5px;">
-                        @* Need to add an image of the dish *@
-
                         <img src="@item.ImageUrl" class="card-img-top" alt="@item.ItemName" height="200">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
@@ -17,15 +15,29 @@
                                 @*Using Html displayFor to allow the currency sign to be displayed*@
                                 <p class="card-title h5 text-primary"><strong>@Html.DisplayFor(modelItem => item.ItemPrice)</strong></p>
                             </div>
+                            <div>
+                                @{
+                                    // Get the nutritional information associated with the current menu item
+                                    var data = Model.NutritionalInformation.FirstOrDefault(u => u.MenuItemId == item.Id);
+                                    // If we have them, then we can display basic allergen information
+                                    if (data != null)
+                                    {
+                                        ViewBag.HasNuts = data.HasNuts;
+                                        ViewBag.IsVegetarian = data.IsVegetarian;
+                                        ViewBag.IsVegan = data.IsVegan;
+                                    }
 
-                            <div class="pl-1">
+                                }
+                                <partial name="_Allergen" />
+                            </div>
+                            <div>
                                 <p class="card-title text-info">@item.ItemDescription</p>
                             </div>
                         </div>
-                        
+
                         <div class="card-footer d-flex justify-content-around">
-                            <a asp-action="addToBasket" class="btn btn-primary">Add to basket</a>
-                            <a asp-controller="Home" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">More Details</a>
+                            <a asp-action="addToBasket" class="btn btn-primary col-5">Add to basket</a>
+                            <a asp-controller="Home" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary col-5">More Details</a>
                         </div>
                     </div>
                 </div>

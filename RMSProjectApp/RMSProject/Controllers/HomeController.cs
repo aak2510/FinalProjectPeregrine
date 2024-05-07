@@ -21,9 +21,12 @@ namespace RMSProject.Controllers
 
             // Nutrional information has a Navigational Property to access MenuItems, so we will use that to display information
             IEnumerable<MenuItem> menuItems = _unitOfWork.MenuItemsRepository.GetAll();
+            IQueryable<NutritionalInformation> nutInfo = _unitOfWork.NutritionalInformationRepository.GetAll();
+            ListViewData vm = new ListViewData();
+            vm.MenuItems = menuItems;
+            vm.NutritionalInformation = nutInfo;
 
-
-            return View(menuItems);
+            return View(vm);
         }
 
         // GET: MenuItems/Details/5
