@@ -26,7 +26,7 @@ namespace RMSProject.Controllers
         {
             _unitOfWork = unitOfWork;
             _hostEnvironment = hostEnvironment;
-            
+
         }
 
         // Don't need the HttpPost attribute because the method isn't changing the state of the app, just filtering data.
@@ -129,35 +129,7 @@ namespace RMSProject.Controllers
         {
             if (!ModelState.IsValid) { return Problem(); }
 
-            // Generating the image file
-            // Getting the wwwroot path
-            string wwwRootPath = _hostEnvironment.WebRootPath;
-
-            // If a file was uploaded
-            if (file != null)
-            {
-                // Generate a unique file name 
-                string filename = Guid.NewGuid().ToString();
-                // The final location of where the file will be uploaded
-                var uploads = Path.Combine(wwwRootPath, "Images", "MenuItemImages");
-                var extension = Path.GetExtension(file.FileName);
-
-                // Ensure the directory exists, if not, create it
-                if (!Directory.Exists(uploads))
-                {
-                    Directory.CreateDirectory(uploads);
-                }
-
-                // Copy the file into the MenuItemImages folder
-                using (var fileStream = new FileStream(Path.Combine(uploads, filename + extension), FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
-
-                data.MenuItem.ImageUrl = "/Images/MenuItemImages/" + filename + extension;
-            }
-
-
+            data.MenuItem.ImageUrl = await UpdateOrAddImageAsync(data, file);
 
             _unitOfWork.MenuItemsRepository.Add(data.MenuItem);
             _unitOfWork.SaveChanges();
@@ -207,7 +179,7 @@ namespace RMSProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Edit(int id, [Bind("MenuItem, NutritionalInformation")] MenuItemsViewData data, IFormFile file)
+        public async Task<IActionResult> Edit(int id, [Bind("MenuItem, NutritionalInformation")] MenuItemsViewData data, IFormFile? file)
         {
             // If there is no data that has been passed through, or the id fields and foreign key fields don't match up, then return not found
             if ((data == null) || (id != data.MenuItem.Id) && (id != data.NutritionalInformation.MenuItemId))
@@ -218,16 +190,22 @@ namespace RMSProject.Controllers
             // and re validate the model state
             if (ModelState.IsValid)
             {
+             
+                // Add images to the wwwroot and get the current url for that image
+                var newImageUrl = await UpdateOrAddImageAsync(data, file);
 
-                _unitOfWork.MenuItemsRepository.Add(data.MenuItem);
+                // If the image was updated, then we update the image url other we keep the old url
+                data.MenuItem.ImageUrl = (!string.IsNullOrEmpty(newImageUrl)) ? newImageUrl : data.MenuItem.ImageUrl;
+
+                // Save changes to database
+                _unitOfWork.MenuItemsRepository.Update(data.MenuItem);
                 _unitOfWork.SaveChanges();
 
                 // get the primary key value, append that to nutional information foreign and then add into the table 
                 data.NutritionalInformation.MenuItemId = data.MenuItem.Id;
 
-                _unitOfWork.NutritionalInformationRepository.Add(data.NutritionalInformation);
+                _unitOfWork.NutritionalInformationRepository.Update(data.NutritionalInformation);
                 _unitOfWork.SaveChanges();
-
 
                 TempData["Success"] = "Menu Item has been successfully Edited!";
                 return RedirectToAction(nameof(Index));
@@ -270,6 +248,61 @@ namespace RMSProject.Controllers
         private bool MenuItemExists(int id)
         {
             return _unitOfWork.MenuItemsRepository.FindAny(e => e.Id == id);
+        }
+
+        private async Task<string> UpdateOrAddImageAsync(MenuItemsViewData data, IFormFile file)
+        {
+            string basePath = "";
+            string filename = "";
+            string extension = "";
+            // Generating the image file
+            // Getting the wwwroot path
+            string wwwRootPath = _hostEnvironment.WebRootPath;
+
+            // If a file was uploaded
+            if (file != null)
+            {
+                basePath = @"/Images/MenuItemImages/";
+                // Generate a unique file name 
+                filename = Guid.NewGuid().ToString();
+                // The final location of where the file will be uploaded
+                var uploads = Path.Combine(wwwRootPath, "Images", "MenuItemImages");
+                extension = Path.GetExtension(file.FileName);
+
+                // Ensure the directory exists, if not, create it
+                if (!Directory.Exists(uploads))
+                {
+                    Directory.CreateDirectory(uploads);
+                }
+
+                /* When updating an already existing image,
+                 * we need to delete the existing image before copying 
+                 * a new one to the images folder.
+                 */
+
+                // If the menuitem already has an image associated with it
+                if (data.MenuItem.ImageUrl != null)
+                {
+                    // We get the old image
+                    var oldImage = Path.Combine(wwwRootPath, data.MenuItem.ImageUrl.TrimStart('\\'));
+                    // We delete the old image
+                    if (System.IO.File.Exists(oldImage))
+                    {
+                        System.IO.File.Delete(oldImage);
+                    }
+                }
+
+
+                // Copy the file into the MenuItemImages folder
+                using (var fileStream = new FileStream(Path.Combine(uploads, filename + extension), FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+
+
+            }
+
+            return basePath + filename + extension;
         }
     }
 }

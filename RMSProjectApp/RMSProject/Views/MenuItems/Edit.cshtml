@@ -16,6 +16,7 @@
             <input asp-for="MenuItem.Id" type="hidden" />
             <input asp-for="NutritionalInformation.Id" type="hidden" />
             <input asp-for="NutritionalInformation.MenuItemId" type="hidden" />
+            <input asp-for="MenuItem.ImageUrl" type="hidden" />
 
             <div class="MenuItemForm col-md-12">
                 <div class="flex-fill">
@@ -50,9 +51,9 @@
 
 
 
-                    <div class="form-group">
+                       <div class="form-group">
                         <label asp-for="MenuItem.ImageUrl" class="form-label"></label>
-                        <input class="form-control" type="file" name="file" id="formFile">                      
+                        <input type="file" class="form-control" name="file" id="fileUpload">
                     </div>
 
                 </div>
