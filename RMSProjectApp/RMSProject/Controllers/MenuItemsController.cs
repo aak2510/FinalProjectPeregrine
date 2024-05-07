@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Hosting;
 using RMSProject.Data;
 using RMSProject.Models;
 using RMSProject.Repositories;
@@ -20,11 +21,11 @@ namespace RMSProject.Controllers
     {
         // Dependency Injection (DI) for the repositories being used
         private readonly IUnitOfWork _unitOfWork;
-
-        public MenuItemsController(IUnitOfWork unitOfWork)
+        private readonly IWebHostEnvironment _hostEnvironment;
+        public MenuItemsController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
         {
             _unitOfWork = unitOfWork;
-
+            _hostEnvironment = hostEnvironment;
             
         }
 
@@ -126,6 +127,37 @@ namespace RMSProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MenuItem, NutritionalInformation")] MenuItemsViewData data, IFormFile file)
         {
+            if (!ModelState.IsValid) { return Problem(); }
+
+            // Generating the image file
+            // Getting the wwwroot path
+            string wwwRootPath = _hostEnvironment.WebRootPath;
+
+            // If a file was uploaded
+            if (file != null)
+            {
+                // Generate a unique file name 
+                string filename = Guid.NewGuid().ToString();
+                // The final location of where the file will be uploaded
+                var uploads = Path.Combine(wwwRootPath, "Images", "MenuItemImages");
+                var extension = Path.GetExtension(file.FileName);
+
+                // Ensure the directory exists, if not, create it
+                if (!Directory.Exists(uploads))
+                {
+                    Directory.CreateDirectory(uploads);
+                }
+
+                // Copy the file into the MenuItemImages folder
+                using (var fileStream = new FileStream(Path.Combine(uploads, filename + extension), FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+
+                data.MenuItem.ImageUrl = "/Images/MenuItemImages/" + filename + extension;
+            }
+
+
 
             _unitOfWork.MenuItemsRepository.Add(data.MenuItem);
             _unitOfWork.SaveChanges();
@@ -183,23 +215,17 @@ namespace RMSProject.Controllers
                 return NotFound();
             }
 
-            // Otherwise, as the reference Navigational property is null when passed through, we need to reset it.
-            // This is because the model is a complex model and thus the state will not be valid.
-            // So we set the property to the current MneuItem we are dealing with.
-            data.NutritionalInformation.MenuItem = data.MenuItem;
-
-            // Once we have set the value, we need to clear the modestate value associated with that specific field
-            ModelState.ClearValidationState("NutritionalInformation.MenuItem");
-
             // and re validate the model state
-            if (TryValidateModel(data.NutritionalInformation.MenuItem, "NutritionalInformation.MenuItem"))
+            if (ModelState.IsValid)
             {
 
-
-                // Add and Save changes to the individual tables
-                _unitOfWork.MenuItemsRepository.Update(data.MenuItem);
+                _unitOfWork.MenuItemsRepository.Add(data.MenuItem);
                 _unitOfWork.SaveChanges();
-                _unitOfWork.NutritionalInformationRepository.Update(data.NutritionalInformation);
+
+                // get the primary key value, append that to nutional information foreign and then add into the table 
+                data.NutritionalInformation.MenuItemId = data.MenuItem.Id;
+
+                _unitOfWork.NutritionalInformationRepository.Add(data.NutritionalInformation);
                 _unitOfWork.SaveChanges();
 
 

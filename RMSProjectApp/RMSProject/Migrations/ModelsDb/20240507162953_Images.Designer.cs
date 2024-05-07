@@ -11,8 +11,8 @@ using RMSProject.Data;
 namespace RMSProject.Migrations.ModelsDb
 {
     [DbContext(typeof(ModelsDbContext))]
-    [Migration("20240506210809_MenuItemThumbnails")]
-    partial class MenuItemThumbnails
+    [Migration("20240507162953_Images")]
+    partial class Images
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

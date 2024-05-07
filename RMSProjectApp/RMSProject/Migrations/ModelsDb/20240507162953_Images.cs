@@ -5,7 +5,7 @@
 namespace RMSProject.Migrations.ModelsDb
 {
     /// <inheritdoc />
-    public partial class MenuItemThumbnails : Migration
+    public partial class Images : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

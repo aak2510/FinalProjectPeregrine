@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Newtonsoft.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
@@ -29,7 +30,7 @@ namespace RMSProject.Models
         public MealType TypeOfMeal { get; set; }
 
         [Display(Name = "Image Upload")]
-        [Required]
+        [ValidateNever]
         public string ImageUrl { get; set; }
     }
 

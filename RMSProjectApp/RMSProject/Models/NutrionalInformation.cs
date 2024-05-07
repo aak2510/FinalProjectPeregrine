@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.InteropServices;
@@ -15,6 +16,7 @@ namespace RMSProject.Models
         [ForeignKey("MenuItem")]
         public int MenuItemId { get; set; }
         // Reference Navigation property to MenuItem
+        [ValidateNever]
         public MenuItem MenuItem { get; set; }
 
         [Required]
