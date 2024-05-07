@@ -237,6 +237,17 @@ namespace RMSProject.Controllers
         {
             var menuItem = _unitOfWork.MenuItemsRepository.GetFirstOrDefault(m => m.Id == id);
             {
+                var wwwRootPath = _hostEnvironment.WebRootPath;
+                // We get the old image
+
+                var currentImagePath = menuItem.ImageUrl.TrimStart('\\');
+
+                // We delete the old image
+                if (System.IO.File.Exists(wwwRootPath + currentImagePath))
+                {
+                    System.IO.File.Delete(wwwRootPath + currentImagePath);
+                }
+
                 _unitOfWork.MenuItemsRepository.Delete(menuItem);
             }
 
@@ -284,11 +295,11 @@ namespace RMSProject.Controllers
                 if (data.MenuItem.ImageUrl != null)
                 {
                     // We get the old image
-                    var oldImage = Path.Combine(wwwRootPath, data.MenuItem.ImageUrl.TrimStart('\\'));
+                    var oldImage =  data.MenuItem.ImageUrl.TrimStart('\\');
                     // We delete the old image
-                    if (System.IO.File.Exists(oldImage))
+                    if (System.IO.File.Exists(wwwRootPath + oldImage))
                     {
-                        System.IO.File.Delete(oldImage);
+                        System.IO.File.Delete(wwwRootPath + oldImage);
                     }
                 }
 
