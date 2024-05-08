@@ -10,7 +10,6 @@ namespace RMSProject.ViewModels
 
         public IQueryable<NutritionalInformation> NutritionalInformation { get; set; }
 
-
-        public string? currentMealTypeDisplay { get; set; }
+        public string currentMealTypeDisplay { get; set; }
     }
 }

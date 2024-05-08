@@ -30,25 +30,23 @@ namespace RMSProject.Controllers
         //    return View(vm);
         //}
 
-        public IActionResult Index(MealType typeOfMeal)
+        public IActionResult Index(string? typeOfMeal)
         {
             IEnumerable<MenuItem> menuItems;
-            string? currentMealTypeDisplay;
 
-            if (string.IsNullOrEmpty(typeOfMeal.ToString()))
+            if (string.IsNullOrEmpty(typeOfMeal))
             {
-                menuItems = _unitOfWork.MenuItemsRepository.GetAll().OrderBy(p => p.Id);
-                currentMealTypeDisplay = "All dishes";
+                menuItems = _unitOfWork.MenuItemsRepository.GetAll();
             }
             else
             {
-                menuItems = _unitOfWork.MenuItemsRepository.GetAll().Where(p => p.TypeOfMeal == typeOfMeal).OrderBy(p => p.Id);
-                currentMealTypeDisplay = _unitOfWork.MenuItemsRepository.GetAll().FirstOrDefault(c => c.TypeOfMeal == typeOfMeal)?.TypeOfMeal.ToString();
+                 menuItems = _unitOfWork.MenuItemsRepository.GetAll().Where(p => p.TypeOfMeal == Enum.Parse<MealType>(typeOfMeal));
+      
             }
             ListViewData vm = new ListViewData();
             vm.MenuItems = menuItems;
             vm.NutritionalInformation = _unitOfWork.NutritionalInformationRepository.GetAll();
-            vm.currentMealTypeDisplay = currentMealTypeDisplay;
+
             return View(vm);
         }
 
