@@ -18,6 +18,7 @@ namespace RMSProject.Data
 
         public DbSet<NutritionalInformation> NutritionalInformation { get; set; } = default!;
 
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set;} = default!;
   
     }
 }

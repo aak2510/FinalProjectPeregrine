@@ -20,6 +20,13 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ModelsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ModelsDbContext") ?? throw new InvalidOperationException("Connection string 'ModelsDbContext' not found.")));
 
+// Add service which will create a shopping cart in all places that use the same shopping cart.
+// This is instantiated in the GetCart method with the service provider being passed in
+builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>(sp => ShoppingCartRepository.GetCart(sp));
+// Used so that we can retrieve session information in shopping cart class
+builder.Services.AddSession();
+// Get access to HTTP context for session information
+builder.Services.AddHttpContextAccessor();
 
 // By implementing a UnitOfWork class, we don't need to add each individual repository we create to the container. We can simply add just add the UnitOfWork to the container,
 // which will take care of the DI for us with each repository.
@@ -39,6 +46,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// Used support/middleware for sessions
+app.UseSession();
 
 app.UseRouting();
 

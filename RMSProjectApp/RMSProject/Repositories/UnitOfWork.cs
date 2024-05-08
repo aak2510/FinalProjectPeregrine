@@ -11,12 +11,16 @@ namespace RMSProject.Repositories
 
         public INutritionalInformationRepository NutritionalInformationRepository { get; private set; }
 
+        public IShoppingCartRepository ShoppingCartRepository { get; private set; }
+
         private ModelsDbContext _context;
         public UnitOfWork(ModelsDbContext dbContext)
         {
             _context = dbContext;
             MenuItemsRepository = new MenuItemsRepository(_context);
             NutritionalInformationRepository = new NutritionalInformationRepository(_context);
+            ShoppingCartRepository = new ShoppingCartRepository(_context);
+
         }
 
 

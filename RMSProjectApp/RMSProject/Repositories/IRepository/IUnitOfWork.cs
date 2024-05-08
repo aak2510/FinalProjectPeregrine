@@ -21,6 +21,8 @@
 
         INutritionalInformationRepository NutritionalInformationRepository { get; }
 
+        IShoppingCartRepository ShoppingCartRepository { get; }
+
         void SaveChanges();
 
     }
