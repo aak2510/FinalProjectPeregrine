@@ -37,7 +37,7 @@
 
                         <div class="card-footer d-flex justify-content-around">
                             <a asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-menuItemId="@item.Id" class="btn btn-primary col-5">Add to basket</a>
-                            <a asp-controller="Home" asp-action="Details" asp-route-menuItemId="@item.Id" class="btn btn-primary col-5">More Details</a>
+                            <a asp-controller="Home" asp-action="Details" asp-route-Id="@item.Id" class="btn btn-primary col-5">More Details</a>
                         </div>
                     </div>
                 </div>

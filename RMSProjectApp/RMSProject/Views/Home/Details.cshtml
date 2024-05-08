@@ -68,7 +68,7 @@
     </div>
 
     <div class="card-body">
-        <a asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-menuItemId="@Model.MenuItem.Id" class="btn btn-primary">Add to cart</a>
+        <a asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-id="@Model.MenuItem.Id" class="btn btn-primary">Add to cart</a>
         <a asp-action="Index" class="btn btn-danger">Back</a>
     </div>
 
