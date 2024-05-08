@@ -3,6 +3,7 @@ using RMSProject.Models;
 using RMSProject.Repositories.IRepository;
 using RMSProject.ViewModels;
 using System.Diagnostics;
+using System.IO.Pipelines;
 
 namespace RMSProject.Controllers
 {
@@ -16,16 +17,38 @@ namespace RMSProject.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
-        {
+        //public IActionResult Index()
+        //{
 
-            // Nutrional information has a Navigational Property to access MenuItems, so we will use that to display information
-            IEnumerable<MenuItem> menuItems = _unitOfWork.MenuItemsRepository.GetAll();
-            IQueryable<NutritionalInformation> nutInfo = _unitOfWork.NutritionalInformationRepository.GetAll();
+        //    // Nutrional information has a Navigational Property to access MenuItems, so we will use that to display information
+        //    IEnumerable<MenuItem> menuItems = _unitOfWork.MenuItemsRepository.GetAll();
+        //    IQueryable<NutritionalInformation> nutInfo = _unitOfWork.NutritionalInformationRepository.GetAll();
+        //    ListViewData vm = new ListViewData();
+        //    vm.MenuItems = menuItems;
+        //    vm.NutritionalInformation = nutInfo;
+
+        //    return View(vm);
+        //}
+
+        public IActionResult Index(MealType typeOfMeal)
+        {
+            IEnumerable<MenuItem> menuItems;
+            string? currentMealTypeDisplay;
+
+            if (string.IsNullOrEmpty(typeOfMeal.ToString()))
+            {
+                menuItems = _unitOfWork.MenuItemsRepository.GetAll().OrderBy(p => p.Id);
+                currentMealTypeDisplay = "All dishes";
+            }
+            else
+            {
+                menuItems = _unitOfWork.MenuItemsRepository.GetAll().Where(p => p.TypeOfMeal == typeOfMeal).OrderBy(p => p.Id);
+                currentMealTypeDisplay = _unitOfWork.MenuItemsRepository.GetAll().FirstOrDefault(c => c.TypeOfMeal == typeOfMeal)?.TypeOfMeal.ToString();
+            }
             ListViewData vm = new ListViewData();
             vm.MenuItems = menuItems;
-            vm.NutritionalInformation = nutInfo;
-
+            vm.NutritionalInformation = _unitOfWork.NutritionalInformationRepository.GetAll();
+            vm.currentMealTypeDisplay = currentMealTypeDisplay;
             return View(vm);
         }
 

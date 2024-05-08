@@ -7,9 +7,10 @@ namespace RMSProject.ViewModels
 
         public IEnumerable<MenuItem> MenuItems { get; set; }
 
-       
+
         public IQueryable<NutritionalInformation> NutritionalInformation { get; set; }
 
-   
+
+        public string? currentMealTypeDisplay { get; set; }
     }
 }
