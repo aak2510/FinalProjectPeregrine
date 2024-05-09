@@ -14,13 +14,15 @@ namespace RMSProject.Controllers
             _unitOfWork = unitOfWork;
         }
 
+
+        /// <summary>
+        /// Returns the view for the shopping cart based on user session information.
+        /// </summary>
+        /// <returns>View associated with the shopping cart</returns>
         public ViewResult Index()
         {
             var items = _unitOfWork.ShoppingCartRepository.GetShoppingCartItems();
             _unitOfWork.ShoppingCartRepository.ShoppingCartItems = items;
-
-
-
 
             var shoppingCartViewModel = new ShoppingCartViewData(
                 _unitOfWork.ShoppingCartRepository, 

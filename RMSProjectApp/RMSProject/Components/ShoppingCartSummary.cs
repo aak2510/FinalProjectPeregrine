@@ -17,8 +17,6 @@ namespace RMSProject.Components
 
         public IViewComponentResult Invoke()
         {
-            //var items = new List<ShoppingCartItem>();
-
             var items = _unitOfWork.ShoppingCartRepository.GetShoppingCartItems();
             _unitOfWork.ShoppingCartRepository.ShoppingCartItems = items;
 
