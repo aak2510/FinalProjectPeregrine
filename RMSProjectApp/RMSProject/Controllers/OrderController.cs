@@ -7,7 +7,7 @@ namespace RMSProject.Controllers
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        public ShoppingCartController(IUnitOfWork unitOfWork)
+        public OrderController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
