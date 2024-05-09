@@ -18,12 +18,12 @@ namespace RMSProject.Models
 
 
         // Customer information fields
-        [Required(ErrorMessage = "Please enter your first name")]
+        [Required(ErrorMessage = "Please enter your first name.")]
         [Display(Name = "First name")]
         [StringLength(150)]
         public string FirstName { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Please enter your last name")]
+        [Required(ErrorMessage = "Please enter your last name.")]
         [Display(Name = "Last name")]
         [StringLength(150)]
         public string LastName { get; set; } = string.Empty;
@@ -36,26 +36,26 @@ namespace RMSProject.Models
         [Display(Name = "Address Line 2")]
         public string? AddressLine2 { get; set; }
 
-        [Required(ErrorMessage = "Please enter your Postcode")]
+        [Required(ErrorMessage = "Please enter your Postcode.")]
         [Display(Name = "Postcode")]
         [StringLength(10, MinimumLength = 4)]
         public string PostCode { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Please enter your city")]
+        [Required(ErrorMessage = "Please enter your city.")]
         [StringLength(50)]
         public string City { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Please enter your country")]
+        [Required(ErrorMessage = "Please enter your country.")]
         [StringLength(50)]
         public string Country { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Please enter your phone number")]
+        [Required(ErrorMessage = "Please enter your phone number.")]
         [StringLength(25)]
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage="Please enter a valid Email address.")]
         [StringLength(150)]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; } = string.Empty;
