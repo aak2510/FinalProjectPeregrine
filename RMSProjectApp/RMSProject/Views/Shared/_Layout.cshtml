@@ -29,8 +29,8 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="MenuItems" asp-action="Index">Menu</a>
                         </li>
-                        <vc:type-of-meal-menu></vc:type-of-meal-menu>
-                   
+          
+                        <partial name="_TypeOfMeal" />
                     </ul>
                     <vc:shopping-cart-summary></vc:shopping-cart-summary>
                     <partial name="_LoginPartial"/>

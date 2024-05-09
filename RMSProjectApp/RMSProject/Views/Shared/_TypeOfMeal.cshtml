@@ -6,7 +6,7 @@
        data-bs-toggle="dropdown"
        id="nav-dropdown"
        aria-expanded="false">
-        Shop
+        Type of Meal
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-dropdown">
         <li>
@@ -18,6 +18,6 @@
                 <a asp-controller="Home" asp-action="Index" asp-route-typeOfMeal="@mealType.ToString()" class="dropdown-item">@mealType</a>
             </li>
         }
-      
+
     </ul>
 </li>
