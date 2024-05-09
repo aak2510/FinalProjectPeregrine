@@ -12,7 +12,7 @@ namespace RMSProject.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
+        public IActionResult Checkout()
         {
             return View();
         }
