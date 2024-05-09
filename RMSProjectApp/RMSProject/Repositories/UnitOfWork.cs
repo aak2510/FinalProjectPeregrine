@@ -13,14 +13,18 @@ namespace RMSProject.Repositories
 
         public IShoppingCartRepository ShoppingCartRepository { get; private set; }
 
+        public IOrderInformationRepository OrderInformationRepository { get; private set; }
+
+
         private ModelsDbContext _context;
+
         public UnitOfWork(ModelsDbContext dbContext)
         {
             _context = dbContext;
             MenuItemsRepository = new MenuItemsRepository(_context);
             NutritionalInformationRepository = new NutritionalInformationRepository(_context);
             ShoppingCartRepository = new ShoppingCartRepository(_context);
-
+            OrderInformationRepository = new OrderInformationRepository(_context);
         }
 
 

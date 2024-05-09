@@ -4,12 +4,9 @@
 }
 
 
-<h3 class="my-5">
-    Shopping cart
-</h3>
-
-<a asp-action="ClearBasket">Clear basket</a>
-
+<h3 class="my-4">My Basket</h3>
+<a asp-action="ClearBasket" class="btn btn-danger">Clear basket</a>
+<hr />
 
 <div class="row gx-3">
     <div class="col-8">
@@ -41,6 +38,7 @@
             </div>
             <hr />
             <div class="text-center d-grid">
+                <a asp-controller="Order" asp-action="Checkout" class="btn btn-primary">Continue to payment</a>
             </div>
         </div>
     </div>

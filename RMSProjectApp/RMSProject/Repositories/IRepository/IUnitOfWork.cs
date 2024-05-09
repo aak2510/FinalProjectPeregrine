@@ -23,6 +23,8 @@
 
         IShoppingCartRepository ShoppingCartRepository { get; }
 
+        IOrderInformationRepository OrderInformationRepository {  get; }
+
         void SaveChanges();
 
     }
