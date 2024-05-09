@@ -6,7 +6,7 @@ using System.IO.Pipelines;
 
 namespace RMSProject.Repositories
 {
-    public class ShoppingCartRepository : Repository<ShoppingCartRepository>, IShoppingCartRepository
+    public class ShoppingCartRepository : Repository<ShoppingCartItem>, IShoppingCartRepository
     {
         private readonly ModelsDbContext _context;
 
@@ -38,7 +38,7 @@ namespace RMSProject.Repositories
 
             // Gets the model db context 
             ModelsDbContext context = services.GetService<ModelsDbContext>() ?? throw new Exception("Error initializing");
-
+            
             // If the user has visited our site before, they will have a CartId key, we can just use this to retrieve their previous basket.
             // If the user has NOT visited our site before, then we will generate a new key value pair for the user.
             string cartId = session?.GetString("CartId") ?? Guid.NewGuid().ToString();
@@ -58,9 +58,7 @@ namespace RMSProject.Repositories
         {
             // First we check to see if the shopping cart already contains the same MenuItem the user is trying to add for the same user/shopping cart.
             // I.e. Before adding to the cart, we see if the same item is already in the cart
-            var shoppingCartItem =
-                    _context.ShoppingCartItems.SingleOrDefault(
-                        s => s.MenuItem.Id == menuItem.Id && s.ShoppingCartId == ShoppingCartId);
+            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(s => s.MenuItem.Id == menuItem.Id && s.ShoppingCartId == ShoppingCartId);
 
             // If it isn't, then we add one of these menuItems to the cart, and set the cart/user its associated with
             if (shoppingCartItem == null)
@@ -132,9 +130,7 @@ namespace RMSProject.Repositories
         public int RemoveFromCart(MenuItem menuItem)
         {
             // Find the shopping cart item we want to remove
-            var shoppingCartItem =
-                   _context.ShoppingCartItems.SingleOrDefault(
-                       s => s.MenuItem.Id == menuItem.Id && s.ShoppingCartId == ShoppingCartId);
+            var shoppingCartItem =_context.ShoppingCartItems.SingleOrDefault(s => s.MenuItem.Id == menuItem.Id && s.ShoppingCartId == ShoppingCartId);
 
             var localAmount = 0;
 

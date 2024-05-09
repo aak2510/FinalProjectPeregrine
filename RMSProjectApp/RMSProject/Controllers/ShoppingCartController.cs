@@ -53,5 +53,12 @@ namespace RMSProject.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        public RedirectToActionResult ClearBasket()
+        {
+            _unitOfWork.ShoppingCartRepository.ClearCart();
+
+            return RedirectToAction("Index");
+        }
     }
 }
