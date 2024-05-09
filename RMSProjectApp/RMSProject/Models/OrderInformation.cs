@@ -36,8 +36,8 @@ namespace RMSProject.Models
         [Display(Name = "Address Line 2")]
         public string? AddressLine2 { get; set; }
 
-        [Required(ErrorMessage = "Please enter your zip code")]
-        [Display(Name = "Post code")]
+        [Required(ErrorMessage = "Please enter your Postcode")]
+        [Display(Name = "Postcode")]
         [StringLength(10, MinimumLength = 4)]
         public string PostCode { get; set; } = string.Empty;
 

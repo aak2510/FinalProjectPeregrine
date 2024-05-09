@@ -38,7 +38,17 @@
             </div>
             <hr />
             <div class="text-center d-grid">
-                <a asp-controller="Order" asp-action="Checkout" class="btn btn-primary">Continue to payment</a>
+                @if (Model.ShoppingCart.ShoppingCartItems.Count <= 0)
+                {
+                    <a asp-controller="Order" asp-action="Checkout" class="btn btn-primary disabled">Continue to payment</a>
+                }
+                else
+                {
+                    // Can achieve the same effect with Javascript by adding and removing "disabled" class
+                    <a asp-controller="Order" asp-action="Checkout" class="btn btn-primary">Continue to payment</a>
+                }
+
+
             </div>
         </div>
     </div>

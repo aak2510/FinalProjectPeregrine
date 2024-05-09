@@ -7,14 +7,10 @@ namespace RMSProject.Repositories
     public class OrderInformationRepository : Repository<OrderInformation>, IOrderInformationRepository
     {
 
-        private readonly ModelsDbContext _context;
+        private ModelsDbContext _context;
         private readonly IShoppingCartRepository _shoppingCart;
 
-        public OrderInformationRepository(ModelsDbContext dbContext) : base(dbContext)
-        {
-        }
-
-        public OrderInformationRepository(ModelsDbContext dbContext, IShoppingCartRepository shoppingCart) :base(dbContext) 
+        public OrderInformationRepository(ModelsDbContext dbContext, IShoppingCartRepository shoppingCart) : base(dbContext)
         {
             _context = dbContext;
             _shoppingCart = shoppingCart;
@@ -39,9 +35,12 @@ namespace RMSProject.Repositories
                     Price = shoppingCartItem.MenuItem.ItemPrice
                 };
 
+                //remove and call separately - unit of work
                 order.OrderDetails.Add(orderDetail);
             }
 
+
+            //remove and call separately - unit of work
             _context.OrderInformation.Add(order);
             _context.SaveChanges();
 

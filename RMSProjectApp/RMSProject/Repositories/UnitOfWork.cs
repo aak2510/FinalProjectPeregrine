@@ -24,7 +24,7 @@ namespace RMSProject.Repositories
             MenuItemsRepository = new MenuItemsRepository(_context);
             NutritionalInformationRepository = new NutritionalInformationRepository(_context);
             ShoppingCartRepository = new ShoppingCartRepository(_context);
-            OrderInformationRepository = new OrderInformationRepository(_context);
+            OrderInformationRepository = new OrderInformationRepository(_context, ShoppingCartRepository);
         }
 
 

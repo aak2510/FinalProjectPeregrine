@@ -141,7 +141,7 @@ namespace RMSProject.Controllers
             _unitOfWork.SaveChanges();
 
 
-            TempData["Success"] = "New item has been successfully created!";
+            TempData["CRUDMenuSuccess"] = "New item has been successfully created!";
             return RedirectToAction(nameof(Index));
 
         }
@@ -207,7 +207,7 @@ namespace RMSProject.Controllers
                 _unitOfWork.NutritionalInformationRepository.Update(data.NutritionalInformation);
                 _unitOfWork.SaveChanges();
 
-                TempData["Success"] = "Menu Item has been successfully Edited!";
+                TempData["CRUDMenuSuccess"] = "Menu Item has been successfully Edited!";
                 return RedirectToAction(nameof(Index));
             }
             return View(data);
@@ -252,7 +252,7 @@ namespace RMSProject.Controllers
             }
 
             _unitOfWork.SaveChanges();
-            TempData["Success"] = "Menu Item has been successfully Delete!";
+            TempData["CRUDMenuSuccess"] = "Menu Item has been successfully Delete!";
             return RedirectToAction(nameof(Index));
         }
 
