@@ -10,16 +10,16 @@ namespace RMSProject.Components
 
         private readonly IUnitOfWork _unitOfWork;
 
-        public ShoppingCartSummary(IUnitOfWork unitOfWorkd)
+        public ShoppingCartSummary(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWorkd;
+            _unitOfWork = unitOfWork;
         }
 
         public IViewComponentResult Invoke()
         {
-            var items = new List<ShoppingCartItem>();
+            //var items = new List<ShoppingCartItem>();
 
-            //var items = _shoppingCart.GetShoppingCartItems();
+            var items = _unitOfWork.ShoppingCartRepository.GetShoppingCartItems();
             _unitOfWork.ShoppingCartRepository.ShoppingCartItems = items;
 
             var shoppingCartViewModel = new ShoppingCartViewData(_unitOfWork.ShoppingCartRepository, _unitOfWork.ShoppingCartRepository.GetShoppingCartTotal());
