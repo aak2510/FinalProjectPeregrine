@@ -747,6 +747,8 @@ progress {
     background-color: var(--bs-body-bg);
     border: var(--bs-border-width) solid var(--bs-border-color);
     border-radius: var(--bs-border-radius);
+    /* Make sure image is will in line with border */
+    min-width: 100%;
     max-width: 100%;
     height: auto;
 }
@@ -13907,3 +13909,31 @@ label,
     width: 25% !important;
 }
 
+.MenuItemImg {
+    max-height: 14rem;
+    object-fit: cover;
+}
+
+.menuCardText {
+    min-height: 10rem !important;
+    max-height: 10rem !important;
+}
+
+.carousel .carousel-item {
+    height: 700px;
+    position: relative;
+}
+
+.carousel-item img {
+    position: absolute;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    max-height: 100%;
+}
+
+#site-logo {
+    border-radius: 50%;
+
+}

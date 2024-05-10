@@ -1,7 +1,7 @@
 ﻿@model RMSProject.ViewModels.MenuItemsViewData
 
 
-<div class="card mb-3 mt-4 col-md-12 text-white bg-dark">
+<div class="card mb-3 mt-4 col-md-7 text-white bg-dark mx-auto">
     <div class="card-header">
         <div class="d-flex justify-content-between text-primary">
             @*Item Name*@
@@ -14,7 +14,7 @@
 
     @*Item image*@
     <div class="card-body">
-        <img src="@Model.MenuItem.ImageUrl" class="img-thumbnail" />
+        <img src="@Model.MenuItem.ImageUrl" style="object-fit:cover" class="img-thumbnail" />
     </div>
     
     @*Item Description*@
@@ -69,7 +69,7 @@
 
     <div class="card-body">
         <a asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-menuItemId="@Model.MenuItem.Id" class="btn btn-primary">Add to cart</a>
-        <a asp-action="Index" class="btn btn-danger">Back</a>
+        <a asp-action="Menu" class="btn btn-danger">Back</a>
     </div>
 
 </div>

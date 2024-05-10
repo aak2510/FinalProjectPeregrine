@@ -21,7 +21,10 @@
 
         <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
             <div class="container-fluid">
-                <a class="navbar-brand text-white" href="#">RMS Project</a>
+                <div class="col-auto" id="logo-container">
+                    <a class="navbar-brand text-white" asp-controller="Home" asp-action="Index"><img id="site-logo" src="~/images/Logo/Logo.jpeg" height="50rem" width="50rem" /></a>
+                </div>
+                
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>

@@ -8,7 +8,7 @@
             <div class="row p-2">
                 <div class="col-12 p-1">
                     <div class="card" style="border:2px solid black; border-radius:5px;">
-                        <img src="@item.ImageUrl" class="card-img-top" alt="@item.ItemName" height="200" style="object-fit: cover;">
+                        <img src="@item.ImageUrl" class="MenuItemImg" alt="@item.ItemName">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <p class="card-title h5 text-primary">@item.ItemName</p>
@@ -30,7 +30,7 @@
                                 }
                                 <partial name="_Allergen" />
                             </div>
-                            <div>
+                            <div class="menuCardText">
                                 <p class="card-title text-info">@item.ItemDescription</p>
                             </div>
                         </div>
