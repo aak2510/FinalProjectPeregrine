@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using RMSProject.Areas.Identity.Data
+
+@inject SignInManager<SystemUser> SignInManager
+@inject UserManager<SystemUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,14 +29,18 @@
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Homepage</a>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="MenuItems" asp-action="Index">Menu</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Menu">Menu</a>
                         </li>
-
                         <partial name="_TypeOfMeal" />
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="MenuItems" asp-action="Index">Edit Menu</a>
+                            </li>
+                        }
                     </ul>
                     <vc:shopping-cart-summary></vc:shopping-cart-summary>
                     <partial name="_LoginPartial" />
@@ -46,7 +56,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - RMSProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - RMSProject
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

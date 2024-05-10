@@ -10,12 +10,12 @@
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-dropdown">
         <li>
-            <a asp-controller="Home" asp-action="Index" asp-route-typeOfMeal="" class="dropdown-item">All Dishes</a>
+            <a asp-controller="Home" asp-action="Menu" asp-route-typeOfMeal="" class="dropdown-item">All Dishes</a>
         </li>
         @foreach (var mealType in Enum.GetValues(typeof(MealType)))
         {
             <li>
-                <a asp-controller="Home" asp-action="Index" asp-route-typeOfMeal="@mealType.ToString()" class="dropdown-item">@mealType</a>
+                <a asp-controller="Home" asp-action="Menu" asp-route-typeOfMeal="@mealType.ToString()" class="dropdown-item">@mealType</a>
             </li>
         }
 

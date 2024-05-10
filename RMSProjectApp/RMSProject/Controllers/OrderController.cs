@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RMSProject.Models;
 using RMSProject.Repositories.IRepository;
+using RMSProject.ViewModels;
 
 namespace RMSProject.Controllers
 {
@@ -30,7 +31,7 @@ namespace RMSProject.Controllers
                 return View("Error");
             }
 
-            // Retrieve the list of items associated with the current user and store then in a list
+            // Retrieve the items associated with the current user and store then in a list
             var items = _unitOfWork.ShoppingCartRepository.GetShoppingCartItems();
             _unitOfWork.ShoppingCartRepository.ShoppingCartItems = items;
 
@@ -46,12 +47,11 @@ namespace RMSProject.Controllers
             // If the order information is valid we create an order
             if (ModelState.IsValid)
             {
-                // TODO: Change to call this, once the payment has gone through
                 _unitOfWork.OrderInformationRepository.Create(orderInformation);
                 // Assuming the payment has gone through, we can clear the cart 
                 _unitOfWork.ShoppingCartRepository.ClearCart();
-                // redirect user to the success page
-                return RedirectToAction("CheckoutComplete");
+                // redirect user to the success page with order info
+                return View("CheckoutComplete", orderInformation);
             }
 
             // if the order wasn't sucessful, we return the user to the checkout page with the viewbag error message
@@ -59,13 +59,8 @@ namespace RMSProject.Controllers
             return View(orderInformation);
         }
 
-        // GET
-        public IActionResult CheckoutComplete()
-        {
+    
 
-
-
-            return View();
-        }
+  
     }
 }

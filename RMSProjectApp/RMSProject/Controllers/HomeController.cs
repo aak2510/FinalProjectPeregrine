@@ -17,20 +17,20 @@ namespace RMSProject.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        //public IActionResult Index()
-        //{
+        public IActionResult Index()
+        {
+            // If the user logged in is the admin, then return the admin view
+            // Add in role based implementation 
+            if (User.Identity.Name == "admin@admin.com")
+            {
+                // return the specific view -- to fix
+                return View("Views/Home/StaffHome/Index.cshtml");
+            }
+      
+            return View();
+        }
 
-        //    // Nutrional information has a Navigational Property to access MenuItems, so we will use that to display information
-        //    IEnumerable<MenuItem> menuItems = _unitOfWork.MenuItemsRepository.GetAll();
-        //    IQueryable<NutritionalInformation> nutInfo = _unitOfWork.NutritionalInformationRepository.GetAll();
-        //    ListViewData vm = new ListViewData();
-        //    vm.MenuItems = menuItems;
-        //    vm.NutritionalInformation = nutInfo;
-
-        //    return View(vm);
-        //}
-
-        public IActionResult Index(string? typeOfMeal)
+        public IActionResult Menu(string? typeOfMeal)
         {
             IEnumerable<MenuItem> menuItems;
 
@@ -40,8 +40,8 @@ namespace RMSProject.Controllers
             }
             else
             {
-                 menuItems = _unitOfWork.MenuItemsRepository.GetAll().Where(p => p.TypeOfMeal == Enum.Parse<MealType>(typeOfMeal));
-      
+                menuItems = _unitOfWork.MenuItemsRepository.GetAll().Where(p => p.TypeOfMeal == Enum.Parse<MealType>(typeOfMeal));
+
             }
             ListViewData vm = new ListViewData();
             vm.MenuItems = menuItems;
@@ -79,7 +79,7 @@ namespace RMSProject.Controllers
             vm.MenuItem = menuItem;
             vm.NutritionalInformation = nutritionalInfo;
 
-         
+
 
             return View(vm);
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,6 +18,7 @@ using RMSProject.ViewModels;
 
 namespace RMSProject.Controllers
 {
+    [Authorize]
     public class MenuItemsController : Controller
     {
         // Dependency Injection (DI) for the repositories being used

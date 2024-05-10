@@ -11,6 +11,7 @@ namespace RMSProject.Models
     public class OrderInformation
     {
         [BindNever]
+        [Display(Name = "Order Number")]
         public int OrderInformationId { get; set; }
 
         // The list of items in the basket when the order was placed.

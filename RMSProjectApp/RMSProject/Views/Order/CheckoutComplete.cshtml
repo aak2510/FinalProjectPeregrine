@@ -1,3 +1,87 @@
-﻿<h1>We have success</h1>
+﻿@model OrderInformation
+
+
+
+<div class="card text-white bg-success mb-3 mx-auto mt-3 col-12">
+    <div class="card-header"><h3>Your order has been <strong>Confirmed!</strong></div>
+    <div class="card-header"><h5>@Html.DisplayNameFor(model => model.OrderInformationId): @Html.DisplayFor(model => model.OrderInformationId)</h5></div>
+    <div class="card-body">
+
+
+        <div class="card-text">
+            <h5>Customer information:</h5>
+            <div class="g-2">
+                <div class="col-12">
+                    @Html.DisplayNameFor(model => model.FirstName): @Html.DisplayFor(model => model.FirstName)
+                </div>
+
+                <div class="col-12">
+                    @Html.DisplayNameFor(model => model.LastName): @Html.DisplayFor(model => model.LastName)
+                </div>
+
+                <div class="col-12">
+                    @Html.DisplayNameFor(model => model.AddressLine1): @Html.DisplayFor(model => model.AddressLine1)
+                </div>
+
+                @if (Model.AddressLine2 != null)
+                {
+                    <div class="col-12">
+                        @Html.DisplayNameFor(model => model.AddressLine2): @Html.DisplayFor(model => model.AddressLine2)
+                    </div>
+                }
+
+                <div class="col-12">
+                    @Html.DisplayNameFor(model => model.City): @Html.DisplayFor(model => model.City)
+                </div>
+
+                <div class="col-6">
+                    @Html.DisplayNameFor(model => model.PostCode): @Html.DisplayFor(model => model.PostCode)
+                </div>
+
+                <div class="col-12">
+                    @Html.DisplayNameFor(model => model.Country): @Html.DisplayFor(model => model.Country)
+                </div>
+
+                <div class="col-12">
+                    @Html.DisplayNameFor(model => model.Email): @Html.DisplayFor(model => model.Email)
+                </div>
+
+                <div class="col-12">
+                    @Html.DisplayNameFor(model => model.PhoneNumber): @Html.DisplayFor(model => model.PhoneNumber)
+                </div>
+            </div>
+        </div>
+
+        <div class="card-text mt-4">
+            <h5>Items purchased: </h5>
+            @foreach (var line in Model.OrderDetails)
+            {
+                <div class="card text-white bg-success mb-2 col-md-6">
+                    <div class="card-text row">
+                        <div class="col-md-4">
+                            <img src="@line.MenuItem.ImageUrl" class="img-fluid rounded-start p-2" alt="@line.MenuItem.ItemName">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row justify-content-between">
+                                <h5 class="col-md-7">@line.MenuItem.ItemName x @line.Amount</h5>
+                                <h5 class="col-md-4">@((line.Amount * line.MenuItem.ItemPrice))</h5>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
 
 <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Click me to go home</a>
+
+
+<p class="mt-3">
+    For simplicity, the checkout procedure has been sandboxed to assume a successful checkout/input of user card information.
+    In production, a failed transaction will redirect the user back to the users basket.
+</p>
+
+

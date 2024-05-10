@@ -87,10 +87,10 @@ namespace RMSProject.Repositories
         /// </summary>
         public void ClearCart()
         {
-            // For each item in the shopping cart, if they have the same shopping cart Id as the one we want to clear, we remove it.
+            // For each item in the shopping cart, if they have the same shopping cart Id as the one we want to clear we get those and store it.
             var cartItems = _context.ShoppingCartItems.Where(cart => cart.ShoppingCartId == ShoppingCartId);
 
-            // remove all the items in the cart
+            // remove all the items in the DbSet which matches the cart items
             _context.ShoppingCartItems.RemoveRange(cartItems);
 
             // Update dbContext to show changes 
