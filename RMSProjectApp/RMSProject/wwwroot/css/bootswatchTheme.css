@@ -9256,6 +9256,10 @@ textarea.form-control-lg {
     text-align: center !important;
 }
 
+.test-justify {
+    text-align: justify !important;
+}
+
 .text-decoration-none {
     text-decoration: none !important;
 }
@@ -13926,7 +13930,6 @@ label,
 
 .carousel-item img {
     position: absolute;
-    object-fit: cover;
     top: 0;
     left: 0;
     min-height: 100%;
